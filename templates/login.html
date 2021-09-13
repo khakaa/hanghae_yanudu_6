@@ -1,29 +1,31 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div>
+<div class = "login-wrap">
     <div>아이디:</div>
-    <div>
-        <input type="text" placeholder="아이디를 입력해주세요."><button>중복체크</button>
-    </div>  
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="아이디를 입력해주세요" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2">중복체크</button>
+    </div>
     <div>비밀번호:</div>
-    <div>
-        <input type="text" placeholder="패스워드를 입력해주세요">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="비밀번호를 입력해주세요" aria-label="Recipient's username" aria-describedby="button-addon2">
+    </div>
+    <div>비밀번호 재입력:</div>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="비밀번호를 다시 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2">
     </div>
     <div>
-        비밀번호 재입력:
-    </div>
-    <div>
-        
-    </div>
-    <div>
-        <button>로그인</button>
-    </div>
-    <div>
-        <button>회원가입</button>
-    </div>
-    <div>
-        <button>가입</button><button>취소</button>
+    <div class="input-group mb-3">
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2">로그인</button>
+    </div class = "button-wrap">
+        <div class="input-group mb-3">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2">회원가입</button>
+        </div>
+        <div class="input-group mb-3">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2">가입</button>
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2">취소</button>
+        </div>
     </div>
 </div>
 
