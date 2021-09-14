@@ -1,33 +1,7 @@
-{% extends 'base.html' %} {% block head %}
-<style>
-  .wrap {
-    border: solid black;
-    width: 800px;
-    height: 1000px;
-    margin: auto;
-  }
-
-  .posting-box {
-    width: 500px;
-    margin: 80px auto;
-  }
-
-  .input-title {
-    padding-top: 10px;
-  }
-
-  .input-content {
-    padding-top: 10px;
-    padding-bottom: 20px;
-  }
-
-  .btn-wrap {
-    text-align: center;
-  }
-</style>
-{% endblock %} {% block content %}
+{% extends 'base.html' %} {% block content %}
 <div class="wrap">
   <div class="posting-box">
+    <h4 class="title">버킷리스트 등록</h4>
     <label>이미지 미리보기</label>
     <div class="image-preview"><img class="img" /></div>
     <div class="input-group mb-3">
@@ -57,7 +31,13 @@
 
     <div class="btn-wrap">
       <button type="button" class="btn-submit btn btn-primary">등록</button>
-      <button type="button" class="btn-cancel btn btn-secondary">취소</button>
+      <button
+        type="button"
+        class="btn-cancel btn btn-secondary"
+        onclick="window.location.href='/'"
+      >
+        취소
+      </button>
     </div>
   </div>
 </div>
