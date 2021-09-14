@@ -1,13 +1,13 @@
 /* 로그인 css */
-.login-wrap {
-  width: 400px;
-  height: 1000;
-  margin: auto;
+.login-wrap{
+    width:450px;
+    height: 1000px;
+    margin:auto;
 }
-.title {
-  width: 160px;
-  margin: 0 auto 20px auto;
-  text-align: center;
+.title{
+    width: 160px;
+    margin: 0 auto 20px auto;
+    text-align: center;
 }
 .justy-center {
   justify-content: center;
@@ -21,8 +21,8 @@
   display: flex;
   justify-content: space-between;
 }
-.flex-between button {
-  width: 45%;
+.flex-between button, .flex-between a{
+    width:45%;
 }
 
 .help {
@@ -49,6 +49,7 @@
 .hidden {
   display: none !important;
 }
+
 /* font color */
 .warn {
   color: red;
