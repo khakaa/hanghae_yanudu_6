@@ -28,6 +28,32 @@ def checkdup():
 def submit():
     return render_template('submit.html')
 
+@app.route('/submit/post', methods=['POST'])
+def submit_post():
+    img_receive = request.form['img_give']
+    title_receive = request.form['title_give']
+    content_receive = request.form['content_give']
+
+    doc = {
+        'img' : img_receive,
+        'title' : title_receive,
+        'content' : content_receive
+    }
+
+    db.list.insert_one(doc)
+
+    print(title_receive, title_receive, content_receive)
+
+    return jsonify({'msg':'저장완료!'})
+
+@app.route('/submit/delete', methods=['POST'])
+def delete_list():
+    ObjectId_receive = request.form['_id_give']
+
+    db.list.delete_one({'_id':ObjectId_receive})
+
+    return jsonify({'msg': '삭제 완료!'})
+
 @app.route('/detail')
 def detail():
     return render_template('detail.html')

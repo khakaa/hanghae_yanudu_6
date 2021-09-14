@@ -9,22 +9,22 @@
       <img class="img" id="preview-img" src="/static/img/Preview-icon.png" height="400" width="500" />
     </div>
     <div class="input-group mb-3">
-      <input type="file" class="form-control" id="inputGroupFile02" />
+      <input type="file" class="form-control img" id="inputGroupFile02" />
     </div>
 
     <div class="input-title">
       <label>제목</label>
-      <input type="text" class="form-control" placeholder="제목을 입력하세요" aria-label="Username"
+      <input type="text" id="subject" class="form-control" placeholder="제목을 입력하세요" aria-label="Username"
         aria-describedby="basic-addon1" />
     </div>
 
     <div class="input-content">
       <label>내용</label>
-      <textarea class="form-control" placeholder="내용을 입력하세요" aria-label="With textarea" rows="10"></textarea>
+      <textarea id="content" class="form-control" placeholder="내용을 입력하세요" aria-label="With textarea" rows="10"></textarea>
     </div>
 
     <div class="btn-wrap">
-      <button type="button" class="btn-submit btn btn-primary">등록</button>
+      <button type="button" class="btn-submit btn btn-primary" onclick="makeList()">등록</button>
       <button type="button" class="btn-cancel btn btn-secondary" onclick="window.location.href='/'">
         취소
       </button>
