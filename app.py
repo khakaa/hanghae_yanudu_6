@@ -15,6 +15,15 @@ def main():
 def home():
     return render_template('login.html')
 
+@app.route('/signup')
+def signup():
+    return render_template('signup.html')
+
+@app.route('/signup/check_dup')
+def checkdup():
+    id_receive = request.form.get('id_give')
+    print(id_receive)
+
 @app.route('/submit')
 def submit():
     return render_template('submit.html')
