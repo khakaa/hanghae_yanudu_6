@@ -1,57 +1,107 @@
 /* 로그인 css */
-.login-wrap{
-    width:400px;
-    height: 1000;
-    margin:auto;
+.login-wrap {
+  width: 400px;
+  height: 1000;
+  margin: auto;
 }
-.title{
-    width: 160px;
-    margin: 0 auto 20px auto;
-    text-align: center;
+.title {
+  width: 160px;
+  margin: 0 auto 20px auto;
+  text-align: center;
 }
-.justy-center{
-    justify-content: center;
+.justy-center {
+  justify-content: center;
 }
-.button-block .login-btn button, .button-block .signup-btn button{
-    width:100%;
-    margin-bottom: 15px;
+.button-block .login-btn button,
+.button-block .signup-btn button {
+  width: 100%;
+  margin-bottom: 15px;
 }
-.flex-between{
-    display: flex;
-    justify-content: space-between;
+.flex-between {
+  display: flex;
+  justify-content: space-between;
 }
-.flex-between button{
-    width:45%;
+.flex-between button {
+  width: 45%;
 }
 
-.help{
-    font-size: 12px;
+.help {
+  font-size: 12px;
 }
 
 /* 배너 */
-.banner{
-    width: 100%;
-    height: 150px;
-    background-color: yellow;
-    display: flex;
+.banner {
+  width: 100%;
+  height: 150px;
+  background-color: yellow;
+  display: flex;
 }
-.banner-title{
-    width:170px;
-    margin: 0 auto 20px auto;
-    font-size: 20px;
+.banner-title {
+  width: 170px;
+  margin: 0 auto 20px auto;
+  font-size: 20px;
 }
-.login-tag{
-    margin-right: 10px;
+.login-tag {
+  margin-right: 10px;
 }
 
 /* hidden */
 .hidden {
-    display: none !important;
+  display: none !important;
 }
 /* font color */
-.warn{
-    color:red;
+.warn {
+  color: red;
 }
-.pass{
-    color:yellowgreen;
+.pass {
+  color: yellowgreen;
+}
+
+/* sumbit css */
+.wrap {
+  width: 800px;
+  height: 1000px;
+  margin: auto;
+}
+
+.title {
+  text-align: center;
+}
+
+.posting-box {
+  width: 500px;
+  margin: auto;
+}
+
+.input-title {
+  padding-top: 10px;
+}
+
+.input-content {
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
+
+.btn-wrap {
+  text-align: center;
+}
+
+/* detail css */
+.detail {
+  background-color: white;
+  width: 800px;
+  height: 1000px;
+  margin: auto;
+  text-align: center;
+}
+
+.card-body {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  margin: 50px;
+}
+
+.card-img {
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
