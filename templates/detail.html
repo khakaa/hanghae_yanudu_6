@@ -1,11 +1,15 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} 
+{% block head %}
+  <script defer src="{{ url_for('static', filename='js/upload.js') }}"></script>
+{% endblock %}
+{% block content %}
 
 <div class="asdf">
   <div>
     <div class="card text-white">
       <img
         class="card-img"
-        src="https://cdnweb01.wikitree.co.kr/webdata/editor/202101/12/img_20210112073524_d1d0cc57.webp"
+        src={{ post.img }}
         alt="Card image"
       />
     <div class="card-img-overlay"></div>
@@ -13,23 +17,25 @@
   </div>
   <div>
     <div class="card text-center">
-      <div class="card-header">조정석씨</div>
+      <div class="card-header">
+        <h3>{{ post.title }}</h3>
+      </div>
       <div class="card-body">
-        <h5 class="card-title">잘생김의 비결이 뭔가요?</h5>
-        <p class="card-text">야 너두 할 수 있어~</p>
+        <p class="card-title">{{ post.content }}</p>
       </div>
     </div>
     <div></div>
     <div>
       <a
-        href="https://www.naver.com/"
+        href='javascript:;'
         class="btn btn-primary btn-lg active"
         role="button"
         aria-pressed="true"
+        onclick="editList()"
         >수정</a
       >
       <a
-        href="https://www.naver.com/"
+        href='javascript:;'
         class="btn btn-secondary btn-lg active"
         role="button"
         aria-pressed="true"
