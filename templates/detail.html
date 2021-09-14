@@ -1,54 +1,42 @@
 {% extends 'base.html' %}
-{% block head %}
-    <style>
-        .detail {
-            background-color: white;
-            width: 800px;
-            height: 1000px;
-            margin: auto;
-            text-align: center;
-        }
-
-        .card-body{
-            padding-top: 50px;
-            padding-bottom: 50px;
-            margin: 50px;
-
-        }
-
-        .card-img {
-            padding-top: 50px;
-            padding-bottom: 50px;
-
-        }
-
-    </style>
-{% endblock %}
 {% block content %}
 
-    <div class="detail">
-        <div>
-            <div class="card text-white">
-                <img class="card-img" src="https://cdnweb01.wikitree.co.kr/webdata/editor/202101/12/img_20210112073524_d1d0cc57.webp" alt="Card image">
-                <div class="card-img-overlay">
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="card text-center">
-                <div class="card-header">
-                    조정석씨
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">잘생김의 비결이 뭔가요?</h5>
-                    <p class="card-text">야 너두 할 수 있어~</p>
-                </div>
-            </div>
-        <div>
-        </div>
-        <div>
-            <a href="https://www.naver.com/" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">수정</a>
-            <a href="https://www.naver.com/" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">삭제</a>
-        </div>
+<div class="asdf">
+  <div>
+    <div class="card text-white">
+      <img
+        class="card-img"
+        src="https://cdnweb01.wikitree.co.kr/webdata/editor/202101/12/img_20210112073524_d1d0cc57.webp"
+        alt="Card image"
+      />
+      <div class="card-img-overlay"></div>
     </div>
-{% endblock %}
+  </div>
+  <div>
+    <div class="card text-center">
+      <div class="card-header">조정석씨</div>
+      <div class="card-body">
+        <h5 class="card-title">잘생김의 비결이 뭔가요?</h5>
+        <p class="card-text">야 너두 할 수 있어~</p>
+      </div>
+    </div>
+    <div></div>
+    <div>
+      <a
+        href="https://www.naver.com/"
+        class="btn btn-primary btn-lg active"
+        role="button"
+        aria-pressed="true"
+        >수정</a
+      >
+      <a
+        href="https://www.naver.com/"
+        class="btn btn-secondary btn-lg active"
+        role="button"
+        aria-pressed="true"
+        >삭제</a
+      >
+    </div>
+  </div>
+  {% endblock %}
+</div>

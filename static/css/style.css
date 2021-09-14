@@ -1,46 +1,54 @@
 /* 로그인 css */
-.login-wrap{
-    width:400px;
-    height: 1000;
-    margin:auto;
+.login-wrap {
+    width: 400px;
+    height: 1000px;
+    margin: auto;
 }
-.title{
+
+.title {
     width: 160px;
     margin: 0 auto 20px auto;
     text-align: center;
 }
-.justy-center{
+
+.justy-center {
     justify-content: center;
 }
-.button-block .login-btn button, .button-block .signup-btn button{
-    width:100%;
+
+.button-block .login-btn button,
+.button-block .signup-btn button {
+    width: 100%;
     margin-bottom: 15px;
 }
-.flex-between{
+
+.flex-between {
     display: flex;
     justify-content: space-between;
 }
-.flex-between button{
-    width:45%;
+
+.flex-between button {
+    width: 45%;
 }
 
-.help{
+.help {
     font-size: 12px;
 }
 
 /* 배너 */
-.banner{
+.banner {
     width: 100%;
     height: 150px;
     background-color: yellow;
     display: flex;
 }
-.banner-title{
-    width:170px;
+
+.banner-title {
+    width: 170px;
     margin: 0 auto 20px auto;
     font-size: 20px;
 }
-.login-tag{
+
+.login-tag {
     margin-right: 10px;
 }
 
@@ -48,10 +56,136 @@
 .hidden {
     display: none !important;
 }
+
 /* font color */
-.warn{
-    color:red;
+.warn {
+    color: red;
 }
-.pass{
-    color:yellowgreen;
+
+.pass {
+    color: yellowgreen;
+}
+
+/* sumbit css */
+.wrap {
+    width: 800px;
+    height: 1000px;
+    margin: auto;
+}
+
+.title {
+    text-align: center;
+}
+
+.posting-box {
+    width: 500px;
+    margin: auto;
+}
+
+.input-title {
+    padding-top: 10px;
+}
+
+.input-content {
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+.btn-wrap {
+    text-align: center;
+}
+
+/* detail css */
+.asdf {
+    background-color: white;
+    width: 800px;
+    height: 1000px;
+    margin: auto;
+    text-align: center;
+}
+
+.card-body {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    margin: 50px;
+
+}
+
+.card-img {
+    padding-top: 50px;
+    padding-bottom: 50px;
+
+}
+
+/* main css */
+.general {
+    max-width: 1320px;
+    margin: 20px auto;
+}
+
+.container {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    height: 60px;
+    align-items: center;
+    padding-top: 5px;
+}
+
+.container_mid {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+    flex-wrap: nowrap;
+    height: 60px;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.detail {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn {
+    padding: .25rem .5rem;
+    font-size: 20px;
+    border-radius: .5rem;
+    border: gray;
+    border-width: 2rem;
+}
+
+#b_img {
+    height: 80px;
+}
+
+.top {
+    padding: 150px;
+    width: 1000px;
+    height: 100px;
+    margin: auto;
+}
+
+.middle {
+    width: 1100px;
+    margin: auto;
+}
+
+.rk_rg {
+    font-size: 30px;
+}
+
+.post_card {
+    margin: 20px auto;
+    background-color: blueviolet;
+}
+
+#card-img2 {
+    width: 200px;
+}
+
+#title {
+    font-size: 60px;
+    text-align: center;
+    margin: auto;
 }
