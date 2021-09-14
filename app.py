@@ -19,10 +19,12 @@ def home():
 def signup():
     return render_template('signup.html')
 
-@app.route('/signup/check_dup')
+@app.route('/signup/check_dup', methods=['POST'])
 def checkdup():
     id_receive = request.form.get('id_give')
-    print(id_receive)
+    exists = bool(db.users.find_one({"username":id_receive}))
+    print(exists)
+    return jsonify({'result': 'success', 'exists':exists})
 
 @app.route('/submit')
 def submit():

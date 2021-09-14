@@ -1,6 +1,6 @@
 /* 로그인 css */
 .login-wrap{
-    width:400px;
+    width:450px;
     height: 1000;
     margin:auto;
 }
@@ -20,7 +20,7 @@
     display: flex;
     justify-content: space-between;
 }
-.flex-between button{
+.flex-between button, .flex-between a{
     width:45%;
 }
 
@@ -48,10 +48,15 @@
 .hidden {
     display: none !important;
 }
+
 /* font color */
 .warn{
     color:red;
 }
 .pass{
     color:yellowgreen;
+}
+
+.detail{
+    background-color: black;
 }
