@@ -8,7 +8,6 @@ function is_nickname(asValue) {
     var regExp = /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{2,10}$/;
     return regExp.test(asValue);
 }
-
 function is_password(asValue) {
     var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
     return regExp.test(asValue);
@@ -34,7 +33,7 @@ function check_dup(){
             },
             success: function (response){
                 if(response["exists"]){
-                    $("help-id").text("이미 존재하는 아이디입니다.").addClass("warn").removeClass("pass");
+                    $("#help-id").text("이미 존재하는 아이디입니다.").addClass("warn").removeClass("pass");
                     $("#id-input").focus();
                 }else{
                     $("#help-id").text("사용할 수 있는 아이디입니다.").addClass("pass").removeClass("warn");
@@ -60,15 +59,15 @@ function signup(){
     }
 
     if(password==""){
-        $("help-password").text("비밀번호를 입력해주세요.").addClass("warn").removeClass("pass");
+        $("#help-password").text("비밀번호를 입력해주세요.").addClass("warn").removeClass("pass");
         $("#password1").focus();
         return;
-    }else if(is_password(password)){
-        $("help-password").text("비밀번호 양식을 확인해주세요. 영문과 숫자 필수 포함, 특수문자(!@#$%^&*)사용가능").addClass("warn").removeClass("pass");
+    }else if(!is_password(password)){
+        $("#help-password").text("비밀번호 양식을 확인해주세요. 영문과 숫자 필수 포함, 특수문자(!@#$%^&*)사용가능").addClass("warn").removeClass("pass");
         $("#password1").focus();
         return;
     }else if(password != password2){
-        $("help-password2").text("비밀번호를 확인해주세요").addClass("warn").removeClass("pass");
+        $("#help-password2").text("비밀번호를 확인해주세요").addClass("warn").removeClass("pass");
         $("#password1").focus();
         return;
     }else{
@@ -76,7 +75,7 @@ function signup(){
             type: "POST",
             url:"signup/post",
             data:{
-                user_give: username,
+                id_give: username,
                 password_give:password
             },
             success:function(response){
@@ -84,7 +83,6 @@ function signup(){
                 window.location.replace("/login")
             }
         })
-
     }
 }
 
