@@ -1,11 +1,10 @@
 /* 로그인 css */
-.login-wrap {
-    width: 400px;
+.login-wrap{
+    width:450px;
     height: 1000px;
-    margin: auto;
+    margin:auto;
 }
-
-.title {
+.title{
     width: 160px;
     margin: 0 auto 20px auto;
     text-align: center;
@@ -25,9 +24,8 @@
     display: flex;
     justify-content: space-between;
 }
-
-.flex-between button {
-    width: 45%;
+.flex-between button, .flex-between a{
+    width:45%;
 }
 
 .help {
@@ -73,8 +71,14 @@
     margin: auto;
 }
 
+.image-preview {
+  text-align: center;
+  padding-bottom: 10px;
+}
+
 .title {
-    text-align: center;
+  padding-top: 10px;
+  text-align: center;
 }
 
 .posting-box {
