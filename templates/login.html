@@ -5,6 +5,14 @@
 {% endblock %}
 
 {% block content %}
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <script>
+            alert("{{messages[-1]}}")
+        </script>
+    {% endif %}
+{% endwith %}
 <div class="login-wrap">
     <div class="title">
         <div class='login-title'><h1>로그인</h1></div>
