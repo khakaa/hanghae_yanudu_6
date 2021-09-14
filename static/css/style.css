@@ -64,7 +64,13 @@
   margin: auto;
 }
 
+.image-preview {
+  text-align: center;
+  padding-bottom: 10px;
+}
+
 .title {
+  padding-top: 10px;
   text-align: center;
 }
 
