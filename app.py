@@ -10,7 +10,7 @@ from pymongo import MongoClient
 client = MongoClient('localhost', 27017)
 db = client.Yanudu
 SECRET_KEY = 'YANUDU'
-
+app.config["SECRET_KEY"] = 'YANUDU'
 def checkExpired():
     if request.cookies.get('mytoken') is not None:
         return True
@@ -28,13 +28,13 @@ def main():
             return render_template('home.html', tokenExist=tokenExist)
         else:
             flash("로그인 정보가 없습니다")
-            return render_template('/login')
+            return render_template('login.html')
     except jwt.ExpiredSignatureError:
         flash("로그인 시간이 만료되었습니다.")
-        return render_template('/login')
+        return render_template('login.html')
     except jwt.exceptions.DecodeError:
         flash("로그인 정보가 없습니다")
-        return render_template('/login')
+        return render_template('login.html')
 
 @app.route('/login')
 def loginpage():
