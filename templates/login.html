@@ -1,5 +1,32 @@
 {% extends 'base.html' %}
 
+{% block head %}
+<script defer src="{{ url_for('static', filename='js/login.js') }}"></script>
+
+{% endblock %}
+
 {% block content %}
+<div class = "login-wrap">
+    <div class="title">
+        <div class='login-title'><h1>로그인</h1></div>
+    </div>
+    <div>아이디</div>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="아이디를 입력해주세요" aria-label="Recipient's username" aria-describedby="button-addon2">
+    </div>
+    <div>비밀번호</div>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="비밀번호를 입력해주세요" aria-label="Recipient's username" aria-describedby="button-addon2">
+    </div>
+    <div class="button-block">
+        <div class="login-btn">
+            <button type="button" class="btn btn-primary">로그인</button>
+        </div>
+        <div class="signup-btn">
+            <button type="button" class="btn btn-primary"><a href="/signup">회원가입</a></button>
+        </div>
+    </div>
+</div>
+
 
 {% endblock %}
