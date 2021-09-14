@@ -1,35 +1,19 @@
 {% extends 'base.html' %} {% block head %}
-<style>
-  .wrap {
-    border: solid black;
-    width: 800px;
-    height: 1000px;
-    margin: auto;
-  }
+<script defer src="{{ url_for('static', filename='js/upload.js') }}"></script>
 
-  .posting-box {
-    width: 500px;
-    margin: 80px auto;
-  }
-
-  .input-title {
-    padding-top: 10px;
-  }
-
-  .input-content {
-    padding-top: 10px;
-    padding-bottom: 20px;
-  }
-
-  .btn-wrap {
-    text-align: center;
-  }
-</style>
 {% endblock %} {% block content %}
 <div class="wrap">
   <div class="posting-box">
-    <label>이미지 미리보기</label>
-    <div class="image-preview"><img class="img" /></div>
+    <h4 class="title">버킷리스트 등록</h4>
+    <div class="image-preview">
+      <img
+        class="img"
+        id="preview-img"
+        src="/static/img/Preview-icon.png"
+        height="400"
+        width="500"
+      />
+    </div>
     <div class="input-group mb-3">
       <input type="file" class="form-control" id="inputGroupFile02" />
     </div>
@@ -57,7 +41,13 @@
 
     <div class="btn-wrap">
       <button type="button" class="btn-submit btn btn-primary">등록</button>
-      <button type="button" class="btn-cancel btn btn-secondary">취소</button>
+      <button
+        type="button"
+        class="btn-cancel btn btn-secondary"
+        onclick="window.location.href='/'"
+      >
+        취소
+      </button>
     </div>
   </div>
 </div>
