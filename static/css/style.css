@@ -87,21 +87,23 @@
 }
 
 /* detail css */
-.detail {
-  background-color: white;
-  width: 800px;
-  height: 1000px;
-  margin: auto;
-  text-align: center;
+.asdf {
+    background-color: white;
+    width: 800px;
+    height: 1000px;
+    margin: auto;
+    text-align: center;
 }
 
-.card-body {
-  padding-top: 50px;
-  padding-bottom: 50px;
-  margin: 50px;
+.card-body{
+    padding-top: 50px;
+    padding-bottom: 50px;
+    margin: 50px;
+
 }
 
 .card-img {
-  padding-top: 50px;
-  padding-bottom: 50px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+
 }
