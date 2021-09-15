@@ -95,20 +95,6 @@ def signupPost():
     db.users.insert(user)
     return jsonify({'result':'success'})
 
-<<<<<<< HEAD
-@app.route('/submit')
-def submit():
-    tokenExist = checkExpired()
-    return render_template('submit.html', token=tokenExist)
-
-@app.route('/detail/<id>')
-def detail(id):
-    # 글 id를 받아서 db 조회
-    bson_id = ObjectId(id)
-    post = db.list.find_one({'_id':bson_id})
-    print(post)
-    return render_template('detail.html', post=post)
-=======
 @app.route('/list_save')
 def save():
     return render_template('list_save.html')
@@ -130,7 +116,6 @@ def update():
 #     print(post)
 #     # post = db.list.find({id: detailId})
 #     return render_template('detail.html', post=post)
->>>>>>> listupload
 
 @app.route('/search')
 def search():
@@ -181,11 +166,8 @@ def listSave():
     # today = datetime.now()
     # mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
 
-<<<<<<< HEAD
-=======
     # filename = f'file_receive-{mytime}'
 
->>>>>>> listupload
     save_to = f'static/img/{file_name}.{extension}'
 
     file_receive.save(save_to)
@@ -195,11 +177,7 @@ def listSave():
         'content': content_receive,
         'file': f'{file_name}.{extension}',
         # 'create_date': today.strftime('%Y.%m.%d.%H.%M.%S'),
-<<<<<<< HEAD
-        'author': user_info['id'],
-=======
         # 'author': user_info['id'],
->>>>>>> listupload
         'likes' : 0
     }
 
