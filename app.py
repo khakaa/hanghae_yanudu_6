@@ -97,7 +97,8 @@ def signupPost():
 
 @app.route('/submit')
 def submit():
-    return render_template('submit.html')
+    tokenExist = checkExpired()
+    return render_template('submit.html', token=tokenExist)
 
 @app.route('/detail/<id>')
 def detail(id):
@@ -151,23 +152,24 @@ def submit_post():
     user_info = db.user.find_one({"id": payload['id']})
 
     extension = file_receive.filename.split('.')[-1]
+    file_name = file_receive.filename.split('.')[0]
     print(extension)
+    print(file_name)
+    # today = datetime.now()
+    # mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
 
-    today = datetime.now()
-    mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+    # filename = f'file_receive-{mytime}'
 
-    filename = f'file_receive-{mytime}'
-
-    save_to = f'static/img/{file_receive.filename}.{extension}'
+    save_to = f'static/img/{file_name}.{extension}'
 
     file_receive.save(save_to)
 
     doc = {
         'title': title_receive,
         'content': content_receive,
-        'file': f'{file_receive}.{extension}',
-        'create_date': today.strftime('%Y.%m.%d.%H.%M.%S'),
-        'author': user_info['id'],
+        'file': f'{file_name}.{extension}',
+        # 'create_date': today.strftime('%Y.%m.%d.%H.%M.%S'),
+        # 'author': user_info['id'],
         'likes' : 0
     }
 
