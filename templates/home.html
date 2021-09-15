@@ -1,3 +1,7 @@
+{% extends 'base.html' %}
+{% block head %}  
+    <script defer src="{{ url_for('static', filename='css/style.css') }}"></script>
+{% endblock %}
 {% extends 'base.html' %}{% block head %}
     <script defer src="{{ url_for('static', filename='js/viewlist.js') }}"></script>
 
@@ -34,7 +38,7 @@
 
             <div class="container_mid">
                 <div class="item">
-                    <a class="rk_rg" href="#">등록</a>
+                    <a class="rk_rg" href="#" onclick="window.location.href='/submit'">등록</a>
                 </div>
 
                 <div class="item">
