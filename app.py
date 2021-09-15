@@ -13,6 +13,8 @@ client = MongoClient('localhost', 27017)
 db = client.Yanudu
 SECRET_KEY = 'YANUDU'
 app.config["SECRET_KEY"] = 'YANUDU'
+
+#토큰 유효성 확인
 def checkExpired():
     if request.cookies.get('mytoken') is not None:
         return True
@@ -26,6 +28,7 @@ def show_list():
     return jsonify({'bucket_authors': author})
 
 
+#좋아요 기능
 @app.route('/list/like', methods=['POST'])
 def like_list():
     #인증기능 필요
@@ -40,6 +43,7 @@ def like_list():
     db.list.update_one({'name': name_receive}, {'$set': {'like': new_like}})
 
     return jsonify({'msg': '좋아요 완료!'})
+
 
 @app.route('/')
 def main():
