@@ -17,11 +17,7 @@
 
             <div class="container_mid">
                 <div class="item">
-                    {% if token %}
-                    <a class="rk_rg" href="/submit">등록</a>
-                    {% else %}
-                    <a class="rk_rg" href="/" onclick='postingFail()'>등록</a>
-                    {% endif %}
+                    <a class="rk_rg" href="#" onclick="window.location.href='/list_save'">등록</a>
                 </div>
 
                 <div class="item">
@@ -33,14 +29,37 @@
                             <option value="2">최신</option>
                             <option value="3">etc...</option>
                         </select>
-
                     </div>
-
                 </div>
             </div>
-            <div id="list-box">
 
+            <div id="list-box">
+                {% for i in all_list %}
+                {%set title = i.title%}
+                {%set img_file = i.file%}
+                {%set content = i.content%}
+                {%set likes = i.likes%}
+                <div class="card mb-3 middle" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="{{ url_for('static', filename='img/' + img_file) }}" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <a class="card-title" href="/list_detail">{{title}} (좋아요: {{likes}})</a>
+                                <p class="card-text">{{content}}</p>
+                                <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <button class="btn btn-primary me-md-2" onclick="likelist('${name}')" type="button">좋아요</button>
+                                    <button class="btn btn-primary" onclick="deletelist('${name}')" type="button">싫어요</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
+
         </div>
     </div>
 

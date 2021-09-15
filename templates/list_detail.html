@@ -1,0 +1,87 @@
+<!-- {% extends 'base.html' %} 
+{% block head %}
+  <script defer src="{{ url_for('static', filename='js/upload.js') }}"></script>
+  <script>
+    let post = '{{ post }}'
+  </script> -->
+<!-- {% endblock %}
+{% block content %}
+
+<div class="asdf">
+  <div>
+    <div class="card text-white">
+      <img
+        class="card-img"
+        src={{ post.img }}
+        alt="Card image"
+      />
+    <div class="card-img-overlay"></div>
+    </div>
+  </div>
+  <div>
+    <div class="card text-center">
+      <div class="card-header">
+        <h3>{{ post.title }}</h3>
+      </div>
+      <div class="card-body">
+        <p class="card-title">{{ post.content }}</p>
+      </div>
+    </div>
+    <div></div>
+    <div>
+      <a
+        href='javascript:;'
+        class="btn btn-primary btn-lg active"
+        role="button"
+        aria-pressed="true"
+        onclick="editList()"
+        >수정</a
+      >
+      <a
+        href='javascript:;'
+        class="btn btn-secondary btn-lg active"
+        role="button"
+        aria-pressed="true"
+        onclick="deleteList()">삭제</a
+      >
+    </div>
+  </div>
+</div> -->
+<!-- {% endblock %} -->
+
+{% extends 'base.html' %} {% block head %}
+<script defer src="{{ url_for('static', filename='js/upload.js') }}"></script>
+<script defer src="{{ url_for('static', filename='css/style.css') }}"></script>
+
+{% endblock %} {% block content %}
+<div class="wrap">
+
+  <!-- 이미지 -->
+  <div class="image-preview">
+    <img class="img" id="upload-img" src="{{ url_for('static', filename='img/' + img_file) }}" height="300" width="300" />
+  </div>
+
+  <!-- postingbox -->
+  <div class="posting-box">
+
+    <div class="input-title">
+      <label>제목</label>
+      <input type="text" id="subject" class="form-control" placeholder="{{all_list.title}}" aria-label="Username"
+        aria-describedby="basic-addon1"/>
+    </div>
+
+    <div class="input-content">
+      <label>내용</label>
+      <textarea id="content" class="form-control" placeholder="{{all_list.content}}" aria-label="With textarea" rows="10"></textarea>
+    </div>
+
+    <div class="btn-wrap">
+      <button type="button" class="btn-submit btn btn-primary" onclick="window.location.href='/list_update'">수정</button>
+      <button type="button" class="btn-cancel btn btn-secondary" onclick="window.location.href='/'">
+        취소
+      </button>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
