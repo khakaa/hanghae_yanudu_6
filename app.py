@@ -44,7 +44,8 @@ def like_list():
 @app.route('/')
 def main():
     tokenExist = checkExpired()
-    return render_template('home.html', token = tokenExist)
+    all_list = list(db.list.find({}))
+    return render_template('home.html', token = tokenExist, all_list=all_list)
 
 @app.route('/login')
 def loginpage():
@@ -94,6 +95,7 @@ def signupPost():
     db.users.insert(user)
     return jsonify({'result':'success'})
 
+<<<<<<< HEAD
 @app.route('/submit')
 def submit():
     tokenExist = checkExpired()
@@ -106,6 +108,29 @@ def detail(id):
     post = db.list.find_one({'_id':bson_id})
     print(post)
     return render_template('detail.html', post=post)
+=======
+@app.route('/list_save')
+def save():
+    return render_template('list_save.html')
+
+@app.route('/list_detail')
+def detail():
+    all_list = list(db.list.find({}))
+    return render_template('list_detail.html', all_list=all_list)
+
+@app.route('/list_update')
+def update():
+    return render_template('list_update.html')
+    
+# @app.route('/detail/<id>')
+# def detail(id):
+#     # 글 id를 받아서 db 조회
+#     bson_id = ObjectId(id)
+#     post = db.list.find_one({'_id':bson_id})
+#     print(post)
+#     # post = db.list.find({id: detailId})
+#     return render_template('detail.html', post=post)
+>>>>>>> listupload
 
 @app.route('/search')
 def search():
@@ -140,8 +165,8 @@ def search():
     else:
         return render_template('search.html', keywords=splitted_keywords, search=search, token=tokenExist)
 
-@app.route('/submit/post', methods=['POST'])
-def submit_post():
+@app.route('/list_save', methods=['POST'])
+def listSave():
     file_receive = request.files['file_give']
     title_receive = request.form['title_give']
     content_receive = request.form['content_give']
@@ -156,6 +181,11 @@ def submit_post():
     # today = datetime.now()
     # mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
 
+<<<<<<< HEAD
+=======
+    # filename = f'file_receive-{mytime}'
+
+>>>>>>> listupload
     save_to = f'static/img/{file_name}.{extension}'
 
     file_receive.save(save_to)
@@ -165,7 +195,11 @@ def submit_post():
         'content': content_receive,
         'file': f'{file_name}.{extension}',
         # 'create_date': today.strftime('%Y.%m.%d.%H.%M.%S'),
+<<<<<<< HEAD
         'author': user_info['id'],
+=======
+        # 'author': user_info['id'],
+>>>>>>> listupload
         'likes' : 0
     }
 
@@ -175,16 +209,16 @@ def submit_post():
 
     return jsonify({'msg':'저장완료!'})
 
-@app.route('/submit', methods=['GET'])
-def editList():
-    return jsonify({'msg': '수정 완료!'})
+# @app.route('/submit', methods=['GET'])
+# def editList():
+#     return jsonify({'msg': '수정 완료!'})
 
-@app.route('/detail/delete', methods=['POST'])
-def delete_list():
-    postId_receive = request.form['postId']
+# @app.route('/detail/delete', methods=['POST'])
+# def delete_list():
+#     postId_receive = request.form['postId']
 
-    db.list.delete_one({'_id':postId_receive})
-    return jsonify({'msg': '삭제 완료!'})
+#     db.list.delete_one({'_id':postId_receive})
+#     return jsonify({'msg': '삭제 완료!'})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
