@@ -28,6 +28,9 @@ def show_list():
 
 @app.route('/list/like', methods=['POST'])
 def like_list():
+    #인증기능 필요
+
+    #인증기능 필요
     name_receive = request.form['name_give']
     target_list = db.list.find_one({'name':name_receive})
     current_like = target_list['like']
@@ -41,6 +44,12 @@ def like_list():
 
 @app.route('/')
 def main():
+    tokenExist = checkExpired()
+    flash("로그인 정보가 없습니다")
+    return render_template('home.html', token = tokenExist)
+
+@app.route('/')
+def mainCheck():
     token = request.cookies.get('mytoken')
     print(token)
     try:
@@ -49,13 +58,13 @@ def main():
             return render_template('home.html', tokenExist=tokenExist)
         else:
             flash("로그인 정보가 없습니다")
-            return render_template('login.html')
+            return redirect(url_for("login"))
     except jwt.ExpiredSignatureError:
         flash("로그인 시간이 만료되었습니다.")
-        return render_template('login.html')
+        return redirect(url_for("login"))
     except jwt.exceptions.DecodeError:
         flash("로그인 정보가 없습니다")
-        return render_template('login.html')
+        return redirect(url_for("login"))
 
 @app.route('/login')
 def loginpage():
