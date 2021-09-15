@@ -35,9 +35,9 @@ function save(){
   })  
 }
 
-function update(){
+// function update(){
   
-}
+// }
 // function editList(){
 //   $.ajax({
 //     type: "GET",

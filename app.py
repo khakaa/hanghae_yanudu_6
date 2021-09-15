@@ -45,7 +45,8 @@ def like_list():
 @app.route('/')
 def main():
     tokenExist = checkExpired()
-    return render_template('home.html', token = tokenExist)
+    all_list = list(db.list.find({}))
+    return render_template('home.html', token = tokenExist, all_list=all_list)
 
 @app.route('/login')
 def loginpage():
@@ -101,7 +102,8 @@ def save():
 
 @app.route('/list_detail')
 def detail():
-    return render_template('list_detail.html')
+    all_list = list(db.list.find({}))
+    return render_template('list_detail.html', all_list=all_list)
 
 @app.route('/list_update')
 def update():

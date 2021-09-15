@@ -1,7 +1,7 @@
 <!-- {% extends 'base.html' %} 
 {% block head %}
   <script defer src="{{ url_for('static', filename='js/upload.js') }}"></script>
-  <!-- <script>
+  <script>
     let post = '{{ post }}'
   </script> -->
 <!-- {% endblock %}
@@ -47,7 +47,6 @@
     </div>
   </div>
 </div> -->
- -->
 <!-- {% endblock %} -->
 
 {% extends 'base.html' %} {% block head %}
@@ -59,28 +58,25 @@
 
   <!-- 이미지 -->
   <div class="image-preview">
-    <img class="img" id="upload-img" src="{{ url_for('static', filename='img/' + data['file'])}}" height="300" width="300" />
+    <img class="img" id="upload-img" src="{{ url_for('static', filename='img/' + img_file) }}" height="300" width="300" />
   </div>
 
   <!-- postingbox -->
   <div class="posting-box">
-    <div class="input-group mb-3">
-      <input type="file" class="form-control img" id="inputGroupFile02" name="file"/>
-    </div>
 
     <div class="input-title">
       <label>제목</label>
-      <input type="text" id="subject" class="form-control" placeholder="제목을 입력하세요" aria-label="Username"
-        aria-describedby="basic-addon1" />
+      <input type="text" id="subject" class="form-control" placeholder="{{all_list.title}}" aria-label="Username"
+        aria-describedby="basic-addon1"/>
     </div>
 
     <div class="input-content">
       <label>내용</label>
-      <textarea id="content" class="form-control" placeholder="내용을 입력하세요" aria-label="With textarea" rows="10"></textarea>
+      <textarea id="content" class="form-control" placeholder="{{all_list.content}}" aria-label="With textarea" rows="10"></textarea>
     </div>
 
     <div class="btn-wrap">
-      <button type="button" class="btn-submit btn btn-primary" onclick="save()">등록</button>
+      <button type="button" class="btn-submit btn btn-primary" onclick="window.location.href='/list_update'">수정</button>
       <button type="button" class="btn-cancel btn btn-secondary" onclick="window.location.href='/'">
         취소
       </button>
