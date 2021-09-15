@@ -10,12 +10,33 @@ from pymongo import MongoClient
 client = MongoClient('localhost', 27017)
 db = client.Yanudu
 SECRET_KEY = 'YANUDU'
-
+app.config["SECRET_KEY"] = 'YANUDU'
 def checkExpired():
     if request.cookies.get('mytoken') is not None:
         return True
     else:
         return False
+
+
+
+# API 역할을 하는 부분
+@app.route('/list/view', methods=['GET'])
+def show_list():
+    author = list(db.list.find({}, {'_id': False}).sort('like', -1))
+    return jsonify({'bucket_authors': author})
+
+
+@app.route('/list/like', methods=['POST'])
+def like_list():
+    name_receive = request.form['name_give']
+    target_list = db.list.find_one({'name':name_receive})
+    current_like = target_list['like']
+
+    new_like = current_like + 1
+
+    db.list.update_one({'name': name_receive}, {'$set': {'like': new_like}})
+
+    return jsonify({'msg': '좋아요 완료!'})
 
 
 @app.route('/')
@@ -28,13 +49,13 @@ def main():
             return render_template('home.html', tokenExist=tokenExist)
         else:
             flash("로그인 정보가 없습니다")
-            return render_template('/login')
+            return render_template('login.html')
     except jwt.ExpiredSignatureError:
         flash("로그인 시간이 만료되었습니다.")
-        return render_template('/login')
+        return render_template('login.html')
     except jwt.exceptions.DecodeError:
         flash("로그인 정보가 없습니다")
-        return render_template('/login')
+        return render_template('login.html')
 
 @app.route('/login')
 def loginpage():
