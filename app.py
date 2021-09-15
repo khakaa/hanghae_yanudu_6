@@ -128,9 +128,10 @@ def detail(id):
 @app.route('/submit/post', methods=['POST'])
 def submit_post():
     # id_receive = request.form[]
-    file_receive = request.form['file_give']
     title_receive = request.form['title_give']
     content_receive = request.form['content_give']
+    file_receive = request.files["file_give"]
+
     # likes_receive = request.form['likes_give']
 
     doc = {
