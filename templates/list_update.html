@@ -5,35 +5,34 @@
 {% endblock %} {% block content %}
 <div class="wrap">
   
-  <!-- 이미지 미리보기 -->
+  <!-- 이미지 -->
   <div class="image-preview">
-    <img class="img" id="preview-img" src="{{ url_for('static, filename='img/' + text['file']) }}" height="300" width="300" />
+    <img class="img" id="preview-img" src="{{ url_for('static', filename='img/' + post['file']) }}" height="300" width="300" />
   </div>
 
   <!-- postingbox -->
   <div class="posting-box">
     <div class="input-group mb-3">
       <input type="file" class="form-control img" id="inputGroupFile02" name="file"
-      value="{{ url_for('static, filename='img/' + text['file']) }}"/>
+      value="{{ url_for('static', filename='img/' + post['file']) }}"/>
     </div>
 
     <div class="input-title">
       <label>제목</label>
       <input type="text" id="subject" class="form-control" placeholder="제목을 입력하세요" aria-label="Username"
-        aria-describedby="basic-addon1" value="{{ text['title'] }}">
+        aria-describedby="basic-addon1" value="{{ post.title }}">
     </div>
 
     <div class="input-content">
       <label>내용</label>
       <textarea id="content" class="form-control" placeholder="내용을 입력하세요" aria-label="With textarea" rows="10"
-      value="{{ data['content'] }}"></textarea>
+      >{{ post.content }}</textarea>
     </div>
 
     <div class="btn-wrap">
-      <button type="button" class="btn-submit btn btn-primary" onclick="">수정</button>
-      <button type="button" class="btn-submit btn btn-primary" onclick="">삭제</button>
-      <button type="button" class="btn-cancel btn btn-secondary" onclick="window.location.href='/'">
-        취소
+      <button type="button" class="btn-submit btn btn-primary" onclick="window.location.href='/list_detail/{{post.id}}'">수정완료</button>
+      <button type="button" class="btn-submit btn btn-primary" onclick="window.location.href=''">삭제</button>
+      <button type="button" class="btn-cancel btn btn-secondary" onclick="window.location.href='/'">목록으로
       </button>
 
     </div>
