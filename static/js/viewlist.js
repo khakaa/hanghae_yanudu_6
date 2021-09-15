@@ -16,7 +16,6 @@ function Doc() {
                 let url = authors[i]['url']
                 let content = authors[i]['content']
                 let file = authors[i]['file']
-                console.log(file)
                 let likes = authors[i]['likes']
 
                 let temp_html = `<div class="card mb-3 middle" style="max-width: 540px;">
