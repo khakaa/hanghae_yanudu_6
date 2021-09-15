@@ -32,15 +32,14 @@ def like_list():
 
     #인증기능 필요
     name_receive = request.form['name_give']
-    target_list = db.list.find_one({'name':name_receive})
-    current_like = target_list['like']
+    target_list = db.list.find_one({'title':name_receive})
+    current_like = target_list['likes']
 
     new_like = current_like + 1
 
     db.list.update_one({'name': name_receive}, {'$set': {'like': new_like}})
 
     return jsonify({'msg': '좋아요 완료!'})
-
 
 @app.route('/')
 def main():
@@ -106,7 +105,6 @@ def detail(id):
     bson_id = ObjectId(id)
     post = db.list.find_one({'_id':bson_id})
     print(post)
-    # post = db.list.find({id: detailId})
     return render_template('detail.html', post=post)
 
 @app.route('/search')
@@ -158,8 +156,6 @@ def submit_post():
     # today = datetime.now()
     # mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
 
-    # filename = f'file_receive-{mytime}'
-
     save_to = f'static/img/{file_name}.{extension}'
 
     file_receive.save(save_to)
@@ -169,7 +165,7 @@ def submit_post():
         'content': content_receive,
         'file': f'{file_name}.{extension}',
         # 'create_date': today.strftime('%Y.%m.%d.%H.%M.%S'),
-        # 'author': user_info['id'],
+        'author': user_info['id'],
         'likes' : 0
     }
 
