@@ -4,11 +4,16 @@
 
 {% endblock %} {% block content %}
 <div class="wrap">
+  
+  <h3 class="submit-title">버킷리스트 작성하기</h3>
+
+  <!-- 이미지 미리보기 -->
+  <div class="image-preview">
+    <img class="img" id="preview-img" src="/static/img/Preview-icon.png" height="300" width="300" />
+  </div>
+
+  <!-- postingbox -->
   <div class="posting-box">
-    <h3 class="submit-title">버킷리스트 등록</h3>
-    <div class="image-preview">
-      <img class="img" id="preview-img" src="/static/img/Preview-icon.png" height="300" width="300" />
-    </div>
     <div class="input-group mb-3">
       <input type="file" class="form-control img" id="inputGroupFile02" name="file"/>
     </div>
@@ -25,7 +30,7 @@
     </div>
 
     <div class="btn-wrap">
-      <button type="button" class="btn-submit btn btn-primary">등록</button>
+      <button type="button" class="btn-submit btn btn-primary" onclick="save()">등록</button>
       <button type="button" class="btn-cancel btn btn-secondary" onclick="window.location.href='/'">
         취소
       </button>
