@@ -1,6 +1,6 @@
 import hashlib
 from flask import Flask, render_template, jsonify, request, url_for, redirect, flash
-import jwt
+# import jwt
 import datetime
 
 from bson.objectid import ObjectId
@@ -57,7 +57,7 @@ def main():
         return render_template('login.html')
     except jwt.exceptions.DecodeError:
         flash("로그인 정보가 없습니다")
-        return render_template('login.html')
+        return render_template('home.html')
 
 @app.route('/login')
 def loginpage():
@@ -118,17 +118,33 @@ def detail(id):
 
 @app.route('/submit/post', methods=['POST'])
 def submit_post():
-    # id_receive = request.form[]
-    file_receive = request.form['file_give']
+    file_receive = request.files['file_give']
     title_receive = request.form['title_give']
     content_receive = request.form['content_give']
-    # likes_receive = request.form['likes_give']
+    # token_receive = request.cookies.get('mytoken')
+    print(file_receive.filename)
+    # payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    # user_info = db.user.find_one({"id": payload['id']})
+
+    extension = file_receive.filename.split('.')[-1]
+    print(extension)
+
+    # today = datetime.now()
+    # mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+
+    # filename = f'file_receive-{mytime}'
+
+    save_to = f'static/img/{file_receive.filename}.{extension}'
+
+    file_receive.save(save_to)
 
     doc = {
-        'file' : file_receive,
-        'title' : title_receive,
-        'content' : content_receive,
-        # 'likes' : likes_receive
+        'title': title_receive,
+        'content': content_receive,
+        'file': f'{file_receive}.{extension}',
+        # 'create_date': today.strftime('%Y.%m.%d.%H.%M.%S'),
+        # 'author': user_info['id'],
+        'likes' : 0
     }
 
     db.list.insert_one(doc)
@@ -143,9 +159,9 @@ def editList():
 
 @app.route('/detail/delete', methods=['POST'])
 def delete_list():
-    title_receive = request.form['title_give']
+    postId_receive = request.form['postId']
 
-    db.list.delete_one({'title':title_receive})
+    db.list.delete_one({'_id':postId_receive})
     return jsonify({'msg': '삭제 완료!'})
 
 if __name__ == '__main__':

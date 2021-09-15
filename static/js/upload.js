@@ -1,6 +1,5 @@
 function showPreview() {
   const fileUploader = document.getElementById("inputGroupFile02");
-  console.log(fileUploader)
   fileUploader.addEventListener("change", (event) => {
     const imagePreview = document.getElementById("preview-img");
     imagePreview.src = URL.createObjectURL(event.target.files[0]);
@@ -10,16 +9,25 @@ function showPreview() {
 showPreview();
 
 function makeList(){
-  let file = $('')[0]
+  let file = $('#inputGroupFile02')[0].files[0]
   let title = $('#subject').val()
   let content = $('#content').val()
-  // let likes = $('#likes').val()
   console.log(file)
+
+  let form_data = new FormData();
+
+  form_data.append('file_give', file);
+  form_data.append('title_give', title);
+  form_data.append('content_give', content);
+
   $.ajax({
     type: "POST",
     url: "/submit/post",
-    data: { file_give:file, title_give:title, content_give:content},
-  
+    data: form_data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    
     success: function(response){
        alert(response['msg'])
        window.location.href='/'
