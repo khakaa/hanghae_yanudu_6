@@ -8,7 +8,7 @@ function showPreview() {
 
 showPreview();
 
-function makeList(){
+function save(){
   let file = $('#inputGroupFile02')[0].files[0]
   let title = $('#subject').val()
   let content = $('#content').val()
@@ -22,7 +22,7 @@ function makeList(){
 
   $.ajax({
     type: "POST",
-    url: "/submit/post",
+    url: "/list_save",
     data: form_data,
     cache: false,
     contentType: false,
@@ -35,27 +35,30 @@ function makeList(){
   })  
 }
 
-function editList(){
-  $.ajax({
-    type: "GET",
-    url: "/submit",
-    data: {},
+function update(){
+  
+}
+// function editList(){
+//   $.ajax({
+//     type: "GET",
+//     url: "/submit",
+//     data: {},
     
-    success: function(response){
-      alert(response['msg'])
-    }
-  })
-}
+//     success: function(response){
+//       alert(response['msg'])
+//     }
+//   })
+// }
 
-function deleteList(){
-  $.ajax({
-    type:"POST",
-    url: "/detail/delete",
-    data: { title_give:title },
+// function deleteList(){
+//   $.ajax({
+//     type:"POST",
+//     url: "/detail/delete",
+//     data: { title_give:title },
 
-    success: function(response){
-      alert(response['msg'])
-      window.location.herf='/'
-    }
-  })
-}
+//     success: function(response){
+//       alert(response['msg'])
+//       window.location.herf='/'
+//     }
+//   })
+// }

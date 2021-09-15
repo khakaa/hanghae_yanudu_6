@@ -7,20 +7,20 @@
   
   <!-- 이미지 미리보기 -->
   <div class="image-preview">
-    <img class="img" id="preview-img" src="{{ url_for('static, filename='img/' + data['file']) }}" height="300" width="300" />
+    <img class="img" id="preview-img" src="{{ url_for('static, filename='img/' + text['file']) }}" height="300" width="300" />
   </div>
 
   <!-- postingbox -->
   <div class="posting-box">
     <div class="input-group mb-3">
       <input type="file" class="form-control img" id="inputGroupFile02" name="file"
-      value="{{ url_for('static, filename='img/' + data['file']) }}"/>
+      value="{{ url_for('static, filename='img/' + text['file']) }}"/>
     </div>
 
     <div class="input-title">
       <label>제목</label>
       <input type="text" id="subject" class="form-control" placeholder="제목을 입력하세요" aria-label="Username"
-        aria-describedby="basic-addon1" value="{{ data['title'] }}">
+        aria-describedby="basic-addon1" value="{{ text['title'] }}">
     </div>
 
     <div class="input-content">

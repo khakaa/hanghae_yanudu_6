@@ -95,18 +95,26 @@ def signupPost():
     db.users.insert(user)
     return jsonify({'result':'success'})
 
-@app.route('/submit')
-def submit():
-    return render_template('submit.html')
+@app.route('/list_save')
+def save():
+    return render_template('list_save.html')
 
-@app.route('/detail/<id>')
-def detail(id):
-    # 글 id를 받아서 db 조회
-    bson_id = ObjectId(id)
-    post = db.list.find_one({'_id':bson_id})
-    print(post)
-    # post = db.list.find({id: detailId})
-    return render_template('detail.html', post=post)
+@app.route('/list_detail')
+def detail():
+    return render_template('list_detail.html')
+
+@app.route('/list_update')
+def update():
+    return render_template('list_update.html')
+    
+# @app.route('/detail/<id>')
+# def detail(id):
+#     # 글 id를 받아서 db 조회
+#     bson_id = ObjectId(id)
+#     post = db.list.find_one({'_id':bson_id})
+#     print(post)
+#     # post = db.list.find({id: detailId})
+#     return render_template('detail.html', post=post)
 
 @app.route('/search')
 def search():
@@ -141,8 +149,8 @@ def search():
     else:
         return render_template('search.html', keywords=splitted_keywords, search=search, token=tokenExist)
 
-@app.route('/submit/post', methods=['POST'])
-def submit_post():
+@app.route('/list_save', methods=['POST'])
+def listSave():
     file_receive = request.files['file_give']
     title_receive = request.form['title_give']
     content_receive = request.form['content_give']
@@ -151,23 +159,24 @@ def submit_post():
     user_info = db.user.find_one({"id": payload['id']})
 
     extension = file_receive.filename.split('.')[-1]
+    file_name = file_receive.filename.split('.')[0]
     print(extension)
+    print(file_name)
+    # today = datetime.now()
+    # mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
 
-    today = datetime.now()
-    mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+    # filename = f'file_receive-{mytime}'
 
-    filename = f'file_receive-{mytime}'
-
-    save_to = f'static/img/{file_receive.filename}.{extension}'
+    save_to = f'static/img/{file_name}.{extension}'
 
     file_receive.save(save_to)
 
     doc = {
         'title': title_receive,
         'content': content_receive,
-        'file': f'{file_receive}.{extension}',
-        'create_date': today.strftime('%Y.%m.%d.%H.%M.%S'),
-        'author': user_info['id'],
+        'file': f'{file_name}.{extension}',
+        # 'create_date': today.strftime('%Y.%m.%d.%H.%M.%S'),
+        # 'author': user_info['id'],
         'likes' : 0
     }
 
@@ -177,16 +186,16 @@ def submit_post():
 
     return jsonify({'msg':'저장완료!'})
 
-@app.route('/submit', methods=['GET'])
-def editList():
-    return jsonify({'msg': '수정 완료!'})
+# @app.route('/submit', methods=['GET'])
+# def editList():
+#     return jsonify({'msg': '수정 완료!'})
 
-@app.route('/detail/delete', methods=['POST'])
-def delete_list():
-    postId_receive = request.form['postId']
+# @app.route('/detail/delete', methods=['POST'])
+# def delete_list():
+#     postId_receive = request.form['postId']
 
-    db.list.delete_one({'_id':postId_receive})
-    return jsonify({'msg': '삭제 완료!'})
+#     db.list.delete_one({'_id':postId_receive})
+#     return jsonify({'msg': '삭제 완료!'})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
