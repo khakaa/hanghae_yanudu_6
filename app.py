@@ -13,6 +13,7 @@ client = MongoClient('localhost', 27017)
 db = client.Yanudu
 SECRET_KEY = 'YANUDU'
 app.config["SECRET_KEY"] = 'YANUDU'
+
 def checkExpired():
     if request.cookies.get('mytoken') is not None:
         return True
@@ -103,22 +104,15 @@ def save():
 def detail(id):
     bson_id = ObjectId(id)
     post = db.list.find_one({'_id':bson_id})
-    print(post)
-    all_list = list(db.list.find({}))
-    return render_template('list_detail.html', post=post, all_list=all_list)
+    # print(post)
+    return render_template('list_detail.html', post=post)
 
-@app.route('/list_update')
-def update():
-    return render_template('list_update.html')
-    
-# @app.route('/detail/<id>')
-# def detail(id):
-#     # 글 id를 받아서 db 조회
-#     bson_id = ObjectId(id)
-#     post = db.list.find_one({'_id':bson_id})
-#     print(post)
-#     # post = db.list.find({id: detailId})
-#     return render_template('detail.html', post=post)
+@app.route('/list_update/<id_data>')
+def update(id_data):
+    bson_id = ObjectId(id_data)
+    post = db.list.find_one({'_id':bson_id})
+    print(post)
+    return render_template('list_update.html', post=post)
 
 @app.route('/search')
 def search():
@@ -189,17 +183,6 @@ def listSave():
     # print(title_receive, title_receive, content_receive)
 
     return jsonify({'msg':'저장완료!'})
-
-# @app.route('/submit', methods=['GET'])
-# def editList():
-#     return jsonify({'msg': '수정 완료!'})
-
-# @app.route('/detail/delete', methods=['POST'])
-# def delete_list():
-#     postId_receive = request.form['postId']
-
-#     db.list.delete_one({'_id':postId_receive})
-#     return jsonify({'msg': '삭제 완료!'})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

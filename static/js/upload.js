@@ -12,7 +12,7 @@ function save(){
   let file = $('#inputGroupFile02')[0].files[0]
   let title = $('#subject').val()
   let content = $('#content').val()
-  console.log(file)
+  // console.log(file)
 
   let form_data = new FormData();
 
