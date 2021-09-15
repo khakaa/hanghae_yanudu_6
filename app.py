@@ -26,12 +26,12 @@ def show_list():
     return jsonify({'bucket_authors': author})
 
 
-@app.route('/list/like', methods=['POST'])
+@app.route('/', methods=['POST'])
 def like_list():
     #인증기능 필요
 
     #인증기능 필요
-    name_receive = request.form['name_give']
+    _receive = request.form['name_give']
     target_list = db.list.find_one({'title':name_receive})
     current_like = target_list['likes']
 
@@ -99,10 +99,13 @@ def signupPost():
 def save():
     return render_template('list_save.html')
 
-@app.route('/list_detail')
-def detail():
+@app.route('/list_detail/<id>')
+def detail(id):
+    bson_id = ObjectId(id)
+    post = db.list.find_one({'_id':bson_id})
+    print(post)
     all_list = list(db.list.find({}))
-    return render_template('list_detail.html', all_list=all_list)
+    return render_template('list_detail.html', post=post, all_list=all_list)
 
 @app.route('/list_update')
 def update():
