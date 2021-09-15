@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% blcok content %}
+    <div class="general">
+        <div>
+            <div class="top">
+                <p id="title">야 너두 할 수 있어!</p>
+            </div>
+            <hr style="background-color: black">
+        </div>
+        <div class="middle">
+
+            <div class="container_mid">
+                <div class="item">
+                    {% if toekn != True %}
+                    <a class="rk_rg" href="#" onclick="window.location.href='/submit'">등록</a>
+                    {% else %}
+                    <button class="rk_rg" onclick="postingFail()">등록</button>
+                    {% endif %}
+                </div>
+
+                <div class="item">
+                    <div class="input-group mb-3 rk_rg">
+                        <label class="input-group-text" for="inputGroupSelect01">정렬</label>
+                        <select class="form-select" onchange=`array(${inputGroupSelect01})` id="inputGroupSelect01">
+                            <option selected>Choose...</option>
+                            <option value="1">좋아요</option>
+                            <option value="2">최신</option>
+                            <option value="3">etc...</option>
+                        </select>
+
+                    </div>
+
+                </div>
+            </div>
+            {% for text in search %}
+            <div id="list-box">
+                <div class="card mb-3 middle" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="{{text}}" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">{{text['title']}} (좋아요: {{text['like']}})<br></h5>
+                                <p class="card-text">{{text['content']}}</p>
+                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <button class="btn btn-primary me-md-2" onclick="likelist('{{text['title']}}')" type="button">좋아요</button>
+                                    <button class="btn btn-primary" onclick="deletelist({{text['title']}})" type="button">싫어요</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

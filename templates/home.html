@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 {% block head %}  
     <script defer src="{{ url_for('static', filename='css/style.css') }}"></script>
-{% endblock %}
-{% extends 'base.html' %}{% block head %}
     <script defer src="{{ url_for('static', filename='js/viewlist.js') }}"></script>
 
 {% endblock %}
@@ -10,25 +8,6 @@
 {% block content %}
     <div class="general">
         <div>
-            <div class="container">
-                <div class="item detail">
-                    <div class="input-group " style="width:300px; height: 40px; margin-right: 10px">
-
-                        <input type="text" class="form-control" placeholder="검색하기..."
-                               aria-label="Recipient's username" aria-describedby="button-addon2">
-                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Go!</button>
-                    </div>
-                    <div class="d-grid gap-2 d-md-block item" style="width: 150px; height: 40px;">
-                        <button class="btn btn-primary" type="button">로그인</button>
-                        <button class="btn btn-primary" type="button">My</button>
-                    </div>
-                </div>
-
-                <div class="item">
-                    <img id="b_img" src="../static/images/Bucket_title_logo.png">
-                </div>
-            </div>
-            <hr style="background-color: black">
             <div class="top">
                 <p id="title">야 너두 할 수 있어!</p>
             </div>

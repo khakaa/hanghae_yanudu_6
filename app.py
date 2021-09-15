@@ -19,8 +19,6 @@ def checkExpired():
     else:
         return False
 
-
-
 # API 역할을 하는 부분
 @app.route('/list/view', methods=['GET'])
 def show_list():
@@ -47,26 +45,7 @@ def like_list():
 @app.route('/')
 def main():
     tokenExist = checkExpired()
-    flash("로그인 정보가 없습니다")
     return render_template('home.html', token = tokenExist)
-
-@app.route('/')
-def mainCheck():
-    token = request.cookies.get('mytoken')
-    print(token)
-    try:
-        tokenExist = checkExpired()
-        if token is not None:
-            return render_template('home.html', tokenExist=tokenExist)
-        else:
-            flash("로그인 정보가 없습니다")
-            return redirect(url_for("login"))
-    except jwt.ExpiredSignatureError:
-        flash("로그인 시간이 만료되었습니다.")
-        return redirect(url_for("login"))
-    except jwt.exceptions.DecodeError:
-        flash("로그인 정보가 없습니다")
-        return redirect(url_for("login"))
 
 @app.route('/login')
 def loginpage():
@@ -88,6 +67,10 @@ def signin():
         return jsonify({'result': 'success', 'token':token})
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
+
+@app.route('/user/logout')
+def logout():
+    return jsonify({"result": "success"})
 
 @app.route('/signup')
 def signup():
@@ -125,20 +108,67 @@ def detail(id):
     # post = db.list.find({id: detailId})
     return render_template('detail.html', post=post)
 
+@app.route('/search')
+def search():
+    try:
+        tokenExist = checkExpired()
+
+    except jwt.ExpiredSignatureError:
+        tokenExist = False
+    except jwt.exceptions.DecodeError:
+        tokenExist = False
+
+    text = request.args.get('search')
+    # text는 form으로 데이터를 받음
+    splitted_keywords = text.split(' ')
+    # text를 공백으로 나눠서 여러가지가 검색될수 있도록함 이때 split된 데이터는 리스트로 만들어짐
+    pipelines = list()
+    pipelines.append({
+        '$sample': {'size': 1}
+    })
+    search_R = list(db.list.aggregate(pipelines))
+
+    sep_keywords = []
+    for string in splitted_keywords:
+        sep_keywords.append({'$or': [
+            {'title': {'$regex': string}},
+            {'content': {'$regex': string}}
+        ]})
+
+    search = list(db.list.find({"$or": sep_keywords}, {'_id': False}).sort('create_date', -1))
+    if text == "":
+        return render_template('search.html', keywords=splitted_keywords, search=search_R, token=tokenExist)
+    else:
+        return render_template('search.html', keywords=splitted_keywords, search=search, token=tokenExist)
+
 @app.route('/submit/post', methods=['POST'])
 def submit_post():
-    # id_receive = request.form[]
+    file_receive = request.files['file_give']
     title_receive = request.form['title_give']
     content_receive = request.form['content_give']
-    file_receive = request.files["file_give"]
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    user_info = db.user.find_one({"id": payload['id']})
 
-    # likes_receive = request.form['likes_give']
+    extension = file_receive.filename.split('.')[-1]
+    print(extension)
+
+    today = datetime.now()
+    mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+
+    filename = f'file_receive-{mytime}'
+
+    save_to = f'static/img/{file_receive.filename}.{extension}'
+
+    file_receive.save(save_to)
 
     doc = {
-        'file' : file_receive,
-        'title' : title_receive,
-        'content' : content_receive,
-        # 'likes' : likes_receive
+        'title': title_receive,
+        'content': content_receive,
+        'file': f'{file_receive}.{extension}',
+        'create_date': today.strftime('%Y.%m.%d.%H.%M.%S'),
+        'author': user_info['id'],
+        'likes' : 0
     }
 
     db.list.insert_one(doc)
@@ -153,9 +183,9 @@ def editList():
 
 @app.route('/detail/delete', methods=['POST'])
 def delete_list():
-    title_receive = request.form['title_give']
+    postId_receive = request.form['postId']
 
-    db.list.delete_one({'title':title_receive})
+    db.list.delete_one({'_id':postId_receive})
     return jsonify({'msg': '삭제 완료!'})
 
 if __name__ == '__main__':
