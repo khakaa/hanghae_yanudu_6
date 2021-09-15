@@ -1,15 +1,15 @@
 /* 로그인 css */
-.login-wrap{
-    width:450px;
-    height: 1000px;
-    margin:auto;
-}
+
 .title{
     width: 160px;
     margin: 0 auto 20px auto;
     text-align: center;
 }
-
+.login-wrap{
+    width:450px;
+    height: 1000px;
+    margin:auto;
+}
 .justy-center {
     justify-content: center;
 }

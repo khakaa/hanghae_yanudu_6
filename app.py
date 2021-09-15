@@ -97,7 +97,8 @@ def signupPost():
 
 @app.route('/submit')
 def submit():
-    return render_template('submit.html')
+    tokenExist = checkExpired()
+    return render_template('submit.html', token=tokenExist)
 
 @app.route('/detail/<id>')
 def detail(id):
