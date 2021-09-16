@@ -53,9 +53,15 @@
     display: flex;
 }
 
-/* hidden */
+/* modal */
 .hidden {
     display: none !important;
+}
+.show{
+    display: block !important;
+}
+.modal{
+    background-color: rgba(0,0,0,0.4);
 }
 
 /* font color */

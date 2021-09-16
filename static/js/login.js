@@ -29,7 +29,7 @@ function sign_in(){
         },
         success:function(response){
             if(response['result']=='success'){
-            $.cookie('mytoken', response['token'], {path:'/'});
+            $.cookie('mytoken', response['token'],{expires:(((1/24)/60)/60)*5}, {path:'/'});
             window.location.replace('/');
             }else{
                 alert(response['msg']);

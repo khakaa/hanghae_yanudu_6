@@ -65,10 +65,9 @@ def signin():
     if result is not None:
         payload = {
             'id': id_receive,
-            'exp': datetime.utcnow() + timedelta(seconds=60)
+            'exp': datetime.utcnow() + timedelta(seconds=5)
         }
-
-        token = jwt.encode({'id':id_receive,'exp':datetime.utcnow() + timedelta(seconds=60)}, SECRET_KEY, algorithm='HS256')
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
         return jsonify({'result': 'success', 'token':token})
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
@@ -162,6 +161,7 @@ def listSave():
     content_receive = request.form['content_give']
     token_receive = request.cookies.get('mytoken')
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    print(payload)
     user_info = db.user.find_one({"id": payload['id']})
 
     extension = file_receive.filename.split('.')[-1]
