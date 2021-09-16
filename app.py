@@ -1,7 +1,8 @@
 import hashlib
 from flask import Flask, render_template, jsonify, request, url_for, redirect, flash
 import jwt
-import datetime
+from datetime import datetime, timedelta
+import time
 
 from bson.objectid import ObjectId
 
@@ -14,6 +15,7 @@ db = client.Yanudu
 SECRET_KEY = 'YANUDU'
 app.config["SECRET_KEY"] = 'YANUDU'
 
+#토큰 유효성 확인
 def checkExpired():
     if request.cookies.get('mytoken') is not None:
         return True
@@ -42,6 +44,7 @@ def like_list():
 
     return jsonify({'msg': '좋아요 완료!'})
 
+
 @app.route('/')
 def main(): 
     tokenExist = checkExpired()
@@ -62,10 +65,11 @@ def signin():
     if result is not None:
         payload = {
             'id': id_receive,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=60 * 60 * 12)
+            'exp': datetime.utcnow() + timedelta(seconds=60)
         }
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-        return jsonify({'result': 'success', 'token':'token'})
+
+        token = jwt.encode({'id':id_receive,'exp':datetime.utcnow() + timedelta(seconds=60)}, SECRET_KEY, algorithm='HS256')
+        return jsonify({'result': 'success', 'token':token})
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
@@ -98,21 +102,24 @@ def signupPost():
 
 @app.route('/list_save')
 def save():
-    return render_template('list_save.html')
+    tokenExist = checkExpired()
+    return render_template('list_save.html', token = tokenExist)
 
 @app.route('/list_detail/<id>')
 def detail(id):
+    tokenExist = checkExpired()
     bson_id = ObjectId(id)
     post = db.list.find_one({'_id':bson_id})
     # print(post)
-    return render_template('list_detail.html', post=post)
+    return render_template('list_detail.html', post=post, token = tokenExist)
 
 @app.route('/list_update/<id_data>')
 def update(id_data):
+    tokenExist = checkExpired()
     bson_id = ObjectId(id_data)
     post = db.list.find_one({'_id':bson_id})
-    # print(post)
-    return render_template('list_update.html', post=post)
+    print(post)
+    return render_template('list_update.html', post=post, token = tokenExist)
 
 @app.route('/search')
 def search():
@@ -175,7 +182,7 @@ def listSave():
         'content': content_receive,
         'file': f'{file_name}.{extension}',
         # 'create_date': today.strftime('%Y.%m.%d.%H.%M.%S'),
-        # 'author': user_info['id'],
+        'author': payload['id'],
         'likes' : 0
     }
 
