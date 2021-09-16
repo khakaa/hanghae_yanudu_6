@@ -181,7 +181,7 @@ def listSave():
         'content': content_receive,
         'file': f'{file_name}.{extension}',
         # 'create_date': today.strftime('%Y.%m.%d.%H.%M.%S'),
-        # 'author': user_info['id'],
+        'author': payload['id'],
         'likes' : 0
     }
 
