@@ -5,6 +5,8 @@ const loginBtn = document.querySelector('.loginBtn');
 function sign_in(){
     let id = $(".ID").val();
     let password = $(".PW").val();
+    let expTime = new Date();
+    expTime.setTime(expTime.getTime() + (12*60*60*1000));
 
     if(id ==""){
         $("#help-id-login").text("아이디를 입력해주세요").addClass('warn').removeClass('pass');
@@ -29,7 +31,7 @@ function sign_in(){
         },
         success:function(response){
             if(response['result']=='success'){
-            $.cookie('mytoken', response['token'],{expires:(((1/24)/60)/60)*5}, {path:'/'});
+            $.cookie('mytoken', response['token'],{expires:expTime}, {path:'/'});
             window.location.replace('/');
             }else{
                 alert(response['msg']);
