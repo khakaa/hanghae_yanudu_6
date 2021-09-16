@@ -1,7 +1,8 @@
 import hashlib
 from flask import Flask, render_template, jsonify, request, url_for, redirect, flash
 import jwt
-import datetime
+from datetime import datetime, timedelta
+import time
 
 from bson.objectid import ObjectId
 
@@ -31,16 +32,16 @@ def show_list():
 #좋아요 기능
 @app.route('/list/like', methods=['POST'])
 def like_list():
-    #인증기능 필요
-
-    #인증기능 필요
+    print('asdf')
     name_receive = request.form['name_give']
-    target_list = db.list.find_one({'title':name_receive})
+    print(name_receive)
+    target_list = db.list.find_one({'_id':ObjectId(name_receive)})
+    print(target_list)
     current_like = target_list['likes']
 
     new_like = current_like + 1
 
-    db.list.update_one({'name': name_receive}, {'$set': {'like': new_like}})
+    db.list.update_one({'_id': ObjectId(name_receive)}, {'$set': {'likes': new_like}})
 
     return jsonify({'msg': '좋아요 완료!'})
 
@@ -65,9 +66,10 @@ def signin():
     if result is not None:
         payload = {
             'id': id_receive,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=60 * 60 * 12)
+            'exp': datetime.utcnow() + timedelta(seconds=60)
         }
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+
+        token = jwt.encode({'id':id_receive,'exp':datetime.utcnow() + timedelta(seconds=60)}, SECRET_KEY, algorithm='HS256')
         return jsonify({'result': 'success', 'token':token})
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
@@ -101,25 +103,24 @@ def signupPost():
 
 @app.route('/list_save')
 def save():
-    return render_template('list_save.html')
+    tokenExist = checkExpired()
+    return render_template('list_save.html', token = tokenExist)
 
-@app.route('/list_detail')
-def detail():
-    all_list = list(db.list.find({}))
-    return render_template('list_detail.html', all_list=all_list)
+@app.route('/list_detail/<id>')
+def detail(id):
+    tokenExist = checkExpired()
+    bson_id = ObjectId(id)
+    post = db.list.find_one({'_id':bson_id})
+    # print(post)
+    return render_template('list_detail.html', post=post, token = tokenExist)
 
-@app.route('/list_update')
-def update():
-    return render_template('list_update.html')
-    
-# @app.route('/detail/<id>')
-# def detail(id):
-#     # 글 id를 받아서 db 조회
-#     bson_id = ObjectId(id)
-#     post = db.list.find_one({'_id':bson_id})
-#     print(post)
-#     # post = db.list.find({id: detailId})
-#     return render_template('detail.html', post=post)
+@app.route('/list_update/<id_data>')
+def update(id_data):
+    tokenExist = checkExpired()
+    bson_id = ObjectId(id_data)
+    post = db.list.find_one({'_id':bson_id})
+    print(post)
+    return render_template('list_update.html', post=post, token = tokenExist)
 
 @app.route('/search')
 def search():
@@ -190,17 +191,6 @@ def listSave():
     # print(title_receive, title_receive, content_receive)
 
     return jsonify({'msg':'저장완료!'})
-
-# @app.route('/submit', methods=['GET'])
-# def editList():
-#     return jsonify({'msg': '수정 완료!'})
-
-# @app.route('/detail/delete', methods=['POST'])
-# def delete_list():
-#     postId_receive = request.form['postId']
-
-#     db.list.delete_one({'_id':postId_receive})
-#     return jsonify({'msg': '삭제 완료!'})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

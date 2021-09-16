@@ -1,3 +1,5 @@
+const del_btn = document.querySelector('.btn-delete')
+
 function showPreview() {
   const fileUploader = document.getElementById("inputGroupFile02");
   fileUploader.addEventListener("change", (event) => {
@@ -12,7 +14,7 @@ function save(){
   let file = $('#inputGroupFile02')[0].files[0]
   let title = $('#subject').val()
   let content = $('#content').val()
-  console.log(file)
+  // console.log(file)
 
   let form_data = new FormData();
 
@@ -62,3 +64,10 @@ function save(){
 //     }
 //   })
 // }
+
+//삭제 확인 모달창
+function del(){
+  $('.modal')
+}
+
+del_btn.addEventListener('click', delmodal);

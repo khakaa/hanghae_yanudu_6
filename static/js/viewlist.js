@@ -1,6 +1,6 @@
-$(document).ready(function () {
-                Doc();
-            });
+// $(document).ready(function () {
+//                 Doc();
+//             });
 
 // function Doc() {
 //     $.ajax({
@@ -43,6 +43,7 @@ $(document).ready(function () {
 // }
 
     function likelist(name) {
+        console.log(name)
          $.ajax({
              type: 'POST',
              url: '/list/like',
@@ -69,4 +70,3 @@ $(document).ready(function () {
     //         }
     //     });
     // }
-$('#myModal').modal(backdrop)
