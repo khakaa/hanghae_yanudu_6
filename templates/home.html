@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block head %}  
-    <script defer src="{{ url_for('static', filename='css/style.css') }}"></script>
+
     <script defer src="{{ url_for('static', filename='js/viewlist.js') }}"></script>
 
 {% endblock %}
@@ -47,15 +47,16 @@
                             <img src="{{ url_for('static', filename='img/' + img_file) }}" class="img-fluid rounded-start" alt="...">
                         </div>
                         <div class="col-md-8">
-                            <a class="card-body" href="/list_detail/{{id}}">
-                                <p class="card-title">{{title}} (좋아요: {{likes}})</p>
+                            <div class="card-body">
+                                <a class="card-title" href="/list_detail/{{id}}">{{title}} (좋아요: {{likes}})</a>
                                 <p class="card-text">{{content}}</p>
                                 <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+                            </div>
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <button class="btn btn-primary me-md-2" onclick="likelist('${name}')" type="button">좋아요</button>
+                                    <button class="btn btn-primary me-md-2" onclick="toggle_like('{{id}}', 'heart')" type="button">좋아요</button>
                                     <button class="btn btn-primary" onclick="deletelist('${name}')" type="button">싫어요</button>
                                 </div>
-                            </a>
+                            </div>
                         </div>
                     </div>
                 </div>

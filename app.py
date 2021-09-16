@@ -27,18 +27,49 @@ def show_list():
     return jsonify({'bucket_authors': author})
 
 
-@app.route('/', methods=['POST'])
+@app.route('/like', methods=['POST'])
 def like_list():
     #인증기능 필요
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"id_users": payload["id_users"]})
+        id_user = user_info['id']
+        _id_receive = request.form['_id_give']
+        target_list = db.list.find_one({'_id': _id_receive})
+        id_list = target_list['id']
+        # id_user_receive = request.form["id_user_give"]
+        like_state = request.form["like_state"]
 
+        if id_user == id_list:
+            if like_state == like_state:
+                db.list.update_one({'_id': 'ObjectId(id_receive)'}, {'$set': {'like_state': 1}})
+                target_list = db.list.find_one({'_id': ObjectId(_id_receive)})
+                current_like = target_list['likes']
+                new_like = current_like + 1
+                db.list.update_one({'_id': ObjectId(id_list_receive)}, {'$set': {'likes': new_like}})
+            else:
+                db.list.update_one({'_id': 'ObjectId(id_receive)'}, {'$set': {'like_state': 0}})
+                target_list = db.list.find_one({'_id': ObjectId(id_list_receive)})
+                current_like = target_list['likes']
+                new_like = current_like - 1
+                db.list.update_one({'_id': ObjectId(id_list_receive)}, {'$set': {'likes': new_like}})
+
+        else:
+            return jsonify({'msg': '로그인 해주세요!'})
+
+        # count = db.likes.count_documents({"post_id": post_id_receive, "type": type_receive})
+
+        return jsonify({"result": "success", 'msg': '업데이트 완료!', "likes": new_like})
+
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
     #인증기능 필요
-    _receive = request.form['name_give']
-    target_list = db.list.find_one({'title':name_receive})
-    current_like = target_list['likes']
-
-    new_like = current_like + 1
-
-    db.list.update_one({'name': name_receive}, {'$set': {'like': new_like}})
+    # _id_receive = request.form['_id_give']
+    # target_list = db.list.find_one({'_id':ObjectId(_id_receive)})
+    # current_like = target_list['likes']
+    # new_like = current_like + 1
+    # db.list.update_one({'_id': ObjectId(id_receive)}, {'$set': {'likes': new_like}})
 
     return jsonify({'msg': '좋아요 완료!'})
 
@@ -174,8 +205,9 @@ def listSave():
         'content': content_receive,
         'file': f'{file_name}.{extension}',
         # 'create_date': today.strftime('%Y.%m.%d.%H.%M.%S'),
-        # 'author': user_info['id'],
-        'likes' : 0
+        'author': user_info['id'],
+        'likes' : 0,
+        'like_state' : 0
     }
 
     db.list.insert_one(doc)
