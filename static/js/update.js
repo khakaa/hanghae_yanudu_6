@@ -3,6 +3,7 @@ function showPreview() {
   fileUploader.addEventListener("change", (event) => {
     const imagePreview = document.getElementById("preview-img");
     imagePreview.src = URL.createObjectURL(event.target.files[0]);
+    
   });
 }
 
@@ -11,7 +12,7 @@ showPreview();
 function update_post(){
   let title = $('#subject').val()
   let content = $('#content').val()
-  let file = $('#inputGroupFile02')[0].files[0]
+  let file = $('#')[0].files[0]
   console.log(file)
   let id = window.location.pathname.split('/')[2]
 

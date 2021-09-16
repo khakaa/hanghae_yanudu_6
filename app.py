@@ -44,7 +44,11 @@ def like_list():
 
     return jsonify({'msg': '좋아요 완료!'})
 
-
+@app.route('/submit')
+def submit():
+    tokenExist = checkExpired()
+    return render_template('base.html', token = tokenExist)
+    
 @app.route('/')
 def main(): 
     tokenExist = checkExpired()
