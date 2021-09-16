@@ -1,3 +1,6 @@
+*{
+    font-family: 'Jua', sans-serif;
+}
 /* 로그인 css */
 
 .title{
@@ -5,6 +8,7 @@
     margin: 0 auto 20px auto;
     text-align: center;
 }
+
 .login-wrap{
     width:450px;
     height: 1000px;
@@ -32,6 +36,38 @@
     font-size: 12px;
 }
 
+/* 홈 */
+.home_title {
+    text-align: center;
+    font-size : 5.5em;;
+    margin: auto;
+    display: block;
+}
+
+.top {
+    padding: 100px;
+    background-color: rgb(37, 188, 174);
+    /* margin; */
+}
+
+.container_mid {
+    display: flex;
+    /* flex-direction: row-reverse; */
+    justify-content: space-around;
+    /* flex-wrap: nowrap; */
+    height: 80px;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.post-title {
+    text-align: center;
+    font-size: 1.3rem;
+}
+
+.post-text {
+    margin: 15px;
+}
 /* 배너 */
 .banner {
     width: 100%;
@@ -73,7 +109,7 @@
     color: yellowgreen;
 }
 
-/* sumbit css */
+/* list css */
 .wrap {
     width: 800px;
     height: 1000px;
@@ -136,34 +172,30 @@ a:link {
 a:visited {
   text-decoration: none;
 }
+
 /* main css */
 .general {
     max-width: 1320px;
     margin: 20px auto;
 }
 
-.container {
+.container_top{
     display: flex;
-    flex-direction: row-reverse;
+    /* flex-direction: row-reverse; */
     justify-content: space-between;
     height: 60px;
     align-items: center;
     padding-top: 5px;
+    max-width: 1320px;
+    margin: 0 auto;
 }
 
-.container_mid {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-around;
-    flex-wrap: nowrap;
-    height: 60px;
-    align-items: center;
-    flex-grow: 1;
-}
+
+/* base */
 
 .detail {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-around;
 }
 
 .btn {
@@ -178,16 +210,8 @@ a:visited {
     height: 80px;
 }
 
-.top {
-    padding: 150px;
-    width: 1000px;
-    height: 100px;
-    margin: auto;
-}
-
-.middle {
-    width: 1100px;
-    margin: auto;
+.submit-link {
+    display: flex;
 }
 
 .rk_rg {
