@@ -1,5 +1,3 @@
-const del_btn = document.querySelector('.btn-delete')
-
 function showPreview() {
   const fileUploader = document.getElementById("inputGroupFile02");
   fileUploader.addEventListener("change", (event) => {
@@ -65,9 +63,3 @@ function save(){
 //   })
 // }
 
-//삭제 확인 모달창
-function del(){
-  $('.modal')
-}
-
-del_btn.addEventListener('click', delmodal);
