@@ -4,13 +4,21 @@ const cancel_btn = document.querySelector('.btn-cancel')
 const close_btn = document.querySelector('.btn-close')
 const modal = document.querySelector('.modal')
 
+
 //삭제 확인 모달창
+// function delmodal(){
+//     $('.modal').addClass('show')
+// }
+// function closeModal(){
+//     $('.modal').removeClass('show')
+// }
 function delmodal(){
-    $('.modal').addClass('show')
+    modal.classList.add('show');
 }
 function closeModal(){
-    $('.modal').removeClass('show')
+    modal.classList.remove('show');
 }
+
 
 //삭제
 function del(id){
