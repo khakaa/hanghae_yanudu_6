@@ -27,23 +27,23 @@ def show_list():
     return jsonify({'bucket_authors': author})
 
 
-@app.route('/', methods=['POST'])
+@app.route('/like_update', methods=['POST'])
 def like_list():
     #인증기능 필요
 
     #인증기능 필요
-    _receive = request.form['name_give']
-    target_list = db.list.find_one({'title':name_receive})
-    current_like = target_list['likes']
+    id_receive = request.form['id_give']
+    target_post = db.list.find_one({'_id':ObjectId(id_receive)})
+    current_like = target_post['likes']
 
     new_like = current_like + 1
 
-    db.list.update_one({'name': name_receive}, {'$set': {'like': new_like}})
+    db.list.update_one({'_id':ObjectId(id_receive)}, {'$set': {'likes': new_like}})
 
     return jsonify({'msg': '좋아요 완료!'})
 
 @app.route('/')
-def main():
+def main(): 
     tokenExist = checkExpired()
     all_list = list(db.list.find({}))
     return render_template('home.html', token = tokenExist, all_list=all_list)
@@ -65,7 +65,7 @@ def signin():
             'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=60 * 60 * 12)
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-        return jsonify({'result': 'success', 'token':token})
+        return jsonify({'result': 'success', 'token':'token'})
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
@@ -111,7 +111,7 @@ def detail(id):
 def update(id_data):
     bson_id = ObjectId(id_data)
     post = db.list.find_one({'_id':bson_id})
-    print(post)
+    # print(post)
     return render_template('list_update.html', post=post)
 
 @app.route('/search')
@@ -150,6 +150,7 @@ def search():
 @app.route('/list_save', methods=['POST'])
 def listSave():
     file_receive = request.files['file_give']
+    # print(file_receive)
     title_receive = request.form['title_give']
     content_receive = request.form['content_give']
     token_receive = request.cookies.get('mytoken')
@@ -158,8 +159,8 @@ def listSave():
 
     extension = file_receive.filename.split('.')[-1]
     file_name = file_receive.filename.split('.')[0]
-    print(extension)
-    print(file_name)
+    # print(extension)
+    # print(file_name)
     # today = datetime.now()
     # mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
 
@@ -180,9 +181,32 @@ def listSave():
 
     db.list.insert_one(doc)
 
-    # print(title_receive, title_receive, content_receive)
-
     return jsonify({'msg':'저장완료!'})
+
+@app.route('/api/list_detail', methods=['PUT'])
+def update_post_save():
+    title_receive = request.form['title_give']
+    content_reiceive = request.form['content_give']
+    post_id_receive = request.form['id_give']
+    file_receive = request.files['file_give']
+
+    extension = file_receive.filename.split('.')[-1]
+    file_name = file_receive.filename.split('.')[0]
+
+    save_to = f'static/img/{file_name}.{extension}'
+
+    file_receive.save(save_to)
+
+    doc = {
+        'title' : title_receive,
+        'content' : content_reiceive,
+        'file' : f'{file_name}.{extension}'
+    }
+
+    db.list.update_one({'_id':ObjectId(post_id_receive)}, {'$set' : doc})
+
+    return jsonify({'msg' : '수정 완료'})
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

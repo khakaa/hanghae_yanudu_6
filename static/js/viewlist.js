@@ -42,11 +42,11 @@
 //         });
 // }
 
-    function likelist(name) {
+    function likelist(id) {
          $.ajax({
              type: 'POST',
-             url: '/',
-             data: {name_give: name},
+             url: '/like_update',
+             data: {id_give : id},
              success: function (response) {
                  alert(response['msg']);
                  window.location.reload()
@@ -59,13 +59,3 @@
         }
     }
 
-    // function deletelist(name) {
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: '/list/delete',
-    //         data: {sample_give: '샘플데이터'},
-    //         success: function (response) {
-    //             alert(response['msg']);
-    //         }
-    //     });
-    // }
