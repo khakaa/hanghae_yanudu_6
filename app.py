@@ -1,7 +1,8 @@
 import hashlib
 from flask import Flask, render_template, jsonify, request, url_for, redirect, flash
 import jwt
-import datetime
+from datetime import datetime, timedelta
+import time
 
 from bson.objectid import ObjectId
 
@@ -14,6 +15,7 @@ db = client.Yanudu
 SECRET_KEY = 'YANUDU'
 app.config["SECRET_KEY"] = 'YANUDU'
 
+#토큰 유효성 확인
 def checkExpired():
     if request.cookies.get('mytoken') is not None:
         return True
@@ -27,54 +29,78 @@ def show_list():
     return jsonify({'bucket_authors': author})
 
 
-@app.route('/like', methods=['POST'])
+
+@app.route('/like_update', methods=['POST'])
+
 def like_list():
     #인증기능 필요
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_info = db.users.find_one({"id_users": payload["id_users"]})
+        user_info = db.users.find_one({'id': payload['id']})
+        type = request.form['type_give']
+        print(type)
         id_user = user_info['id']
         _id_receive = request.form['_id_give']
-        target_list = db.list.find_one({'_id': _id_receive})
-        id_list = target_list['id']
-        # id_user_receive = request.form["id_user_give"]
-        like_state = request.form["like_state"]
+        target_list = db.list.find_one({'_id': ObjectId(_id_receive)})
+        current_like = target_list['likes']
+        likes = request.form["likes_give"]
+        once = list(db.like.find({'like_id': id_user},{'_id':False}))
+        doc = {
+            "post_id": ObjectId(_id_receive),
+            "like_id": id_user
+        }
+        if type == 'like':
+            for i in once:
+                if id_user == i['like_id']:
+                    return jsonify({'msg': '이미 좋아요를 눌렀어요!'})
 
-        if id_user == id_list:
-            if like_state == like_state:
-                db.list.update_one({'_id': 'ObjectId(id_receive)'}, {'$set': {'like_state': 1}})
-                target_list = db.list.find_one({'_id': ObjectId(_id_receive)})
-                current_like = target_list['likes']
-                new_like = current_like + 1
-                db.list.update_one({'_id': ObjectId(id_list_receive)}, {'$set': {'likes': new_like}})
-            else:
-                db.list.update_one({'_id': 'ObjectId(id_receive)'}, {'$set': {'like_state': 0}})
-                target_list = db.list.find_one({'_id': ObjectId(id_list_receive)})
-                current_like = target_list['likes']
-                new_like = current_like - 1
-                db.list.update_one({'_id': ObjectId(id_list_receive)}, {'$set': {'likes': new_like}})
-
+            db.like.insert_one(doc)
+            likes = current_like + 1
+            db.list.update_one({'_id': ObjectId(_id_receive)}, {'$set': {'likes': likes}})
         else:
-            return jsonify({'msg': '로그인 해주세요!'})
+            if db.like.find_one({'like_id': id_user}):
+                db.like.delete_one(doc)
+                likes = current_like - 1
+                db.list.update_one({'_id': ObjectId(_id_receive)}, {'$set': {'likes': likes}})
+            else:
+                return jsonify({'msg': '이미 싫어요를 눌렀어요!'})
 
-        # count = db.likes.count_documents({"post_id": post_id_receive, "type": type_receive})
+        return jsonify({"result": "success", 'msg': '업데이트 완료!'})
+        #
 
-        return jsonify({"result": "success", 'msg': '업데이트 완료!', "likes": new_like})
+        # doc = {
+        #     "post_id": ObjectId(_id_receive),
+        #     "like_id": id_user
+        # }
+        #
+        # if id_user in once:
+        #     return jsonify({'msg': '이미 좋아요를 눌렀어요!'})
+        # else:
+        #     if type == 'like':
+        #         db.like.insert_one(doc)
+        #         likes = current_like + 1
+        #         db.list.update_one({'_id': ObjectId(_id_receive)}, {'$set': {'likes': likes}})
+        #         return jsonify({"result": "success", 'msg': '업데이트 완료!', "likes": likes})
+        #     else:
+        #         db.like.delete_one(doc)
+        #         likes = current_like - 1
+        #         db.list.update_one({'_id': ObjectId(_id_receive)}, {'$set': {'likes': likes}})
+        #         return jsonify({"result": "success", 'msg': '업데이트 완료!', "likes": likes})
+
 
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
     #인증기능 필요
+
     # _id_receive = request.form['_id_give']
     # target_list = db.list.find_one({'_id':ObjectId(_id_receive)})
     # current_like = target_list['likes']
     # new_like = current_like + 1
     # db.list.update_one({'_id': ObjectId(id_receive)}, {'$set': {'likes': new_like}})
 
-    return jsonify({'msg': '좋아요 완료!'})
-
 @app.route('/')
-def main():
+def main(): 
     tokenExist = checkExpired()
     all_list = list(db.list.find({}))
     return render_template('home.html', token = tokenExist, all_list=all_list)
@@ -93,7 +119,7 @@ def signin():
     if result is not None:
         payload = {
             'id': id_receive,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=60 * 60 * 12)
+            'exp': datetime.utcnow() + timedelta(seconds=60*60*24)
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
         return jsonify({'result': 'success', 'token':token})
@@ -129,21 +155,24 @@ def signupPost():
 
 @app.route('/list_save')
 def save():
-    return render_template('list_save.html')
+    tokenExist = checkExpired()
+    return render_template('list_save.html', token = tokenExist)
 
 @app.route('/list_detail/<id>')
 def detail(id):
+    tokenExist = checkExpired()
     bson_id = ObjectId(id)
     post = db.list.find_one({'_id':bson_id})
     # print(post)
-    return render_template('list_detail.html', post=post)
+    return render_template('list_detail.html', post=post, token = tokenExist)
 
 @app.route('/list_update/<id_data>')
 def update(id_data):
+    tokenExist = checkExpired()
     bson_id = ObjectId(id_data)
     post = db.list.find_one({'_id':bson_id})
     print(post)
-    return render_template('list_update.html', post=post)
+    return render_template('list_update.html', post=post, token = tokenExist)
 
 @app.route('/search')
 def search():
@@ -181,16 +210,18 @@ def search():
 @app.route('/list_save', methods=['POST'])
 def listSave():
     file_receive = request.files['file_give']
+    # print(file_receive)
     title_receive = request.form['title_give']
     content_receive = request.form['content_give']
     token_receive = request.cookies.get('mytoken')
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    print(payload)
     user_info = db.user.find_one({"id": payload['id']})
 
     extension = file_receive.filename.split('.')[-1]
     file_name = file_receive.filename.split('.')[0]
-    print(extension)
-    print(file_name)
+    # print(extension)
+    # print(file_name)
     # today = datetime.now()
     # mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
 
@@ -205,16 +236,38 @@ def listSave():
         'content': content_receive,
         'file': f'{file_name}.{extension}',
         # 'create_date': today.strftime('%Y.%m.%d.%H.%M.%S'),
-        'author': user_info['id'],
-        'likes' : 0,
-        'like_state' : 0
+        'author': payload['id'],
+        'likes' : 0
     }
 
     db.list.insert_one(doc)
 
-    # print(title_receive, title_receive, content_receive)
-
     return jsonify({'msg':'저장완료!'})
+
+@app.route('/api/list_detail', methods=['PUT'])
+def update_post_save():
+    title_receive = request.form['title_give']
+    content_reiceive = request.form['content_give']
+    post_id_receive = request.form['id_give']
+    file_receive = request.files['file_give']
+
+    extension = file_receive.filename.split('.')[-1]
+    file_name = file_receive.filename.split('.')[0]
+
+    save_to = f'static/img/{file_name}.{extension}'
+
+    file_receive.save(save_to)
+
+    doc = {
+        'title' : title_receive,
+        'content' : content_reiceive,
+        'file' : f'{file_name}.{extension}'
+    }
+
+    db.list.update_one({'_id':ObjectId(post_id_receive)}, {'$set' : doc})
+
+    return jsonify({'msg' : '수정 완료'})
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

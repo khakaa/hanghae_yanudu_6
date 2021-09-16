@@ -42,67 +42,22 @@
 //         });
 // }
 
-    function likelist(_id) {
+    function likelist(id,likes,type) {
          $.ajax({
              type: 'POST',
-             url: '/like',
-             data: {_id_give: _id},
+             url: '/like_update',
+             data: {_id_give : id,likes_give : likes, type_give:type},
              success: function (response) {
                  alert(response['msg']);
-                 window.location.reload()
+                 console.log(response)
+                 window.location.reload('/')
              }
          });
     }
-    function toggle_like(post_id, type) {
-    console.log(post_id, type)
-    let $a_like = $(`#${post_id} a[aria-label='heart']`)
-    let $i_like = $a_like.find("i")
-    if ($i_like.hasClass("fa-heart")) {
-        $.ajax({
-            type: "POST",
-            url: "/update_like",
-            data: {
-                post_id_give: post_id,
-                type_give: type,
-                action_give: "unlike"
-            },
-            success: function (response) {
-                console.log("unlike")
-                $i_like.addClass("fa-heart-o").removeClass("fa-heart")
-                $a_like.find("span.like-num").text(response["count"])
-            }
-        })
-    } else {
-        $.ajax({
-            type: "POST",
-            url: "/update_like",
-            data: {
-                post_id_give: post_id,
-                type_give: type,
-                action_give: "like"
-            },
-            success: function (response) {
-                console.log("like")
-                $i_like.addClass("fa-heart").removeClass("fa-heart-o")
-                $a_like.find("span.like-num").text(response["count"])
-            }
-        })
 
-    }
-}
     function array(coi) {
         if(text=='좋아요') {
 
         }
     }
 
-    // function deletelist(name) {
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: '/list/delete',
-    //         data: {sample_give: '샘플데이터'},
-    //         success: function (response) {
-    //             alert(response['msg']);
-    //         }
-    //     });
-    // }

@@ -26,9 +26,28 @@
 
     <div class="btn-wrap">
       <button type="button" class="btn-submit btn btn-primary" onclick="window.location.href='/list_update/{{post._id}}'">수정</button>
+      <button type="button" class="btn_deletemodal btn btn-primary">삭제</button>
       <button type="button" class="btn-cancel btn btn-secondary" onclick="window.location.href='/'">
         목록으로
       </button>
+    </div>
+  </div>
+</div>
+
+<div class="modal hidden"  tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">삭제 확인</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>정말 삭제하시겠습니까?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-del btn btn-primary">예 삭제하겠습니다.</button>
+        <button type="button" class="btn-cancel btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+      </div>
     </div>
   </div>
 </div>
