@@ -195,7 +195,7 @@ def update_post_save():
     title_receive = request.form['title_give']
     content_reiceive = request.form['content_give']
     post_id_receive = request.form['id_give']
-    file_receive = request.files['file_give']
+    file_receive = request.files.get('file_give')
 
     extension = file_receive.filename.split('.')[-1]
     file_name = file_receive.filename.split('.')[0]

@@ -1,8 +1,18 @@
+function showPreview() {
+  const fileUploader = document.getElementById("inputGroupFile02");
+  fileUploader.addEventListener("change", (event) => {
+    const imagePreview = document.getElementById("preview-img");
+    imagePreview.src = URL.createObjectURL(event.target.files[0]);
+  });
+}
+
+showPreview();
 
 function update_post(){
   let title = $('#subject').val()
   let content = $('#content').val()
   let file = $('#inputGroupFile02')[0].files[0]
+  console.log(file)
   let id = window.location.pathname.split('/')[2]
 
   let form_data = new FormData();
