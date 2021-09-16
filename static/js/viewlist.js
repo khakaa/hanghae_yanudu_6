@@ -43,9 +43,10 @@
 // }
 
     function likelist(name) {
+        console.log(name)
          $.ajax({
              type: 'POST',
-             url: '/',
+             url: '/list/like',
              data: {name_give: name},
              success: function (response) {
                  alert(response['msg']);
