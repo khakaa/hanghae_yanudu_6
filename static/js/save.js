@@ -8,11 +8,11 @@ function showPreview() {
 
 showPreview();
 
-function save(){
+function post(){
   let file = $('#inputGroupFile02')[0].files[0]
   let title = $('#subject').val()
   let content = $('#content').val()
-  // console.log(file)
+  console.log(file)
 
   let form_data = new FormData();
 
@@ -34,31 +34,3 @@ function save(){
     }
   })  
 }
-
-// function update(){
-  
-// }
-// function editList(){
-//   $.ajax({
-//     type: "GET",
-//     url: "/submit",
-//     data: {},
-    
-//     success: function(response){
-//       alert(response['msg'])
-//     }
-//   })
-// }
-
-// function deleteList(){
-//   $.ajax({
-//     type:"POST",
-//     url: "/detail/delete",
-//     data: { title_give:title },
-
-//     success: function(response){
-//       alert(response['msg'])
-//       window.location.herf='/'
-//     }
-//   })
-// }

@@ -42,22 +42,12 @@
 //         });
 // }
 
-    function likelist(_id) {
-         $.ajax({
-             type: 'POST',
-             url: '/like',
-             data: {_id_give: _id},
-             success: function (response) {
-                 alert(response['msg']);
-                 window.location.reload()
-             }
-         });
-    }
-    function toggle_like(post_id, type) {
-    console.log(post_id, type)
-    let $a_like = $(`#${post_id} a[aria-label='heart']`)
+function likelist(post_id) {
+    let $a_like = $(`#${id} a[like-label='like']`)
     let $i_like = $a_like.find("i")
-    if ($i_like.hasClass("fa-heart")) {
+    let class_s = {"heart": "fa-heart", "star": "fa-star", "like": "fa-thumbs-up"}
+    let class_o = {"heart": "fa-heart-o", "star": "fa-star-o", "like": "fa-thumbs-o-up"}
+    if ($i_like.hasClass(class_s[type])) {
         $.ajax({
             type: "POST",
             url: "/update_like",
@@ -68,8 +58,8 @@
             },
             success: function (response) {
                 console.log("unlike")
-                $i_like.addClass("fa-heart-o").removeClass("fa-heart")
-                $a_like.find("span.like-num").text(response["count"])
+                $i_like.addClass(class_o[type]).removeClass(class_s[type])
+                $a_like.find("span.like-num").text(num2str(response["count"]))
             }
         })
     } else {
@@ -83,26 +73,77 @@
             },
             success: function (response) {
                 console.log("like")
-                $i_like.addClass("fa-heart").removeClass("fa-heart-o")
-                $a_like.find("span.like-num").text(response["count"])
+                $i_like.addClass(class_s[type]).removeClass(class_o[type])
+                $a_like.find("span.like-num").text(num2str(response["count"]))
             }
         })
 
     }
 }
-    function array(coi) {
-        if(text=='좋아요') {
 
-        }
+function get_posts(username) {
+    if (username == undefined) {
+        username = ""
     }
+    $("#post-box").empty()
+    $.ajax({
+        type: "GET",
+        url: `/get_posts?username_give=${username}`,
+        data: {},
+        success: function (response) {
+            if (response["result"] == "success") {
+                let posts = response["posts"]
+                for (let i = 0; i < posts.length; i++) {
+                    let post = posts[i]
+                    let time_post = new Date(post["date"])
+                    let time_before = time2str(time_post)
+                    let class_heart = ""
+                    if (post["heart_by_me"]) {
+                        class_heart = "fa-heart"
+                    } else {
+                        class_heart = "fa-heart-o"
+                    }
 
-    // function deletelist(name) {
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: '/list/delete',
-    //         data: {sample_give: '샘플데이터'},
-    //         success: function (response) {
-    //             alert(response['msg']);
-    //         }
-    //     });
-    // }
+                    let class_heart = post['heart_by_me'] ? "fa-heart" : "fa-heart-o"
+
+                    let html_temp = `<div class="box" id="${post["_id"]}">
+                                        <article class="media">
+                                            <div class="media-left">
+                                                <a class="image is-64x64" href="/user/${post['username']}">
+                                                    <img class="is-rounded" src="/static/${post['profile_pic_real']}"
+                                                         alt="Image">
+                                                </a>
+                                            </div>
+                                            <div class="media-content">
+                                                <div class="content">
+                                                    <p>
+                                                        <strong>${post['profile_name']}</strong> <small>@${post['username']}</small> <small>${time_before}</small>
+                                                        <br>
+                                                        ${post['comment']}
+                                                    </p>
+                                                </div>
+                                                <nav class="level is-mobile">
+                                                    <div class="level-left">
+                                                        <a class="level-item is-sparta" aria-label="heart" onclick="toggle_like('${post['_id']}', 'heart')">
+                                                            <span class="icon is-small"><i class="fa ${class_heart}"
+                                                                                           aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post["count_heart"])}</span>
+                                                        </a>
+                                                    </div>
+
+                                                </nav>
+                                            </div>
+                                        </article>
+                                    </div>`
+                    $("#post-box").append(html_temp)
+                }
+            }
+        }
+    })
+}
+
+function array(coi) {
+    if (text == '좋아요') {
+
+    }
+}
+

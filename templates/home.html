@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
-{% block head %}  
-
+{% block head %}
+    <script defer src="{{ url_for('static', filename='css/style.css') }}"></script>
     <script defer src="{{ url_for('static', filename='js/viewlist.js') }}"></script>
 
 {% endblock %}
@@ -18,7 +18,11 @@
 
             <div class="container_mid">
                 <div class="item">
-                    <a class="rk_rg" href="#" onclick="window.location.href='/list_save'">등록</a>
+                    {% if token %}
+                    <a class="rk_rg" href="/list_save">등록</a>
+                    {% else %}
+                    <a class="rk_rg" href="/" onclick='postingFail()'>등록</a>
+                    {% endif %}
                 </div>
 
                 <div class="item">
@@ -47,15 +51,17 @@
                             <img src="{{ url_for('static', filename='img/' + img_file) }}" class="img-fluid rounded-start" alt="...">
                         </div>
                         <div class="col-md-8">
-                            <div class="card-body">
-                                <a class="card-title" href="/list_detail/{{id}}">{{title}} (좋아요: {{likes}})</a>
-                                <p class="card-text">{{content}}</p>
-                                <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
-                            </div>
-                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <button class="btn btn-primary me-md-2" onclick="toggle_like('{{id}}', 'heart')" type="button">좋아요</button>
-                                    <button class="btn btn-primary" onclick="deletelist('${name}')" type="button">싫어요</button>
-                                </div>
+                            <a class="card-title" href="/list_detail/{{id}}">{{title}} (좋아요: {{likes}})</a>
+                            <p class="card-text">{{content}}</p>
+                            <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            {% if token %}
+                                <a like-label='like' onclick="likelist('{{ id }}')"><button class="btn btn-primary me-md-2 " type="button">좋아요</button></a>
+
+                            {% else %}
+                                <button class="btn btn-primary me-md-2 " onclick="postingFail()" type="button">좋아요</button>
+                            {% endif %}
+                                <button class="btn btn-primary" onclick="deletelist('${name}')" type="button">싫어요</button>
                             </div>
                         </div>
                     </div>

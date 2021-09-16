@@ -1,3 +1,6 @@
+console.log('%c  Bucket List  ', 'font-size: 100px; font-weight:bolder; background-color:black; color:rgb(255,255,255,1);');
+
+
 //로그아웃
 function logout(){
     $.ajax({
