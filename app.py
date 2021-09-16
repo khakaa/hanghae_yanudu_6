@@ -106,11 +106,19 @@ def save():
 
 @app.route('/list_detail/<id>')
 def detail(id):
-    tokenExist = checkExpired()
     bson_id = ObjectId(id)
     post = db.list.find_one({'_id':bson_id})
-    # print(post)
-    return render_template('list_detail.html', post=post, token = tokenExist)
+    tokenExist = checkExpired()
+
+    token_receive = request.cookies.get('mytoken')
+
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+
+    userid = db.users.find_one({'id': payload['id']})['id']
+    print(userid)
+    postid = db.list.find_one({'_id':bson_id})['author']
+    print(postid)
+    return render_template('list_detail.html', post=post, token = tokenExist, userid=userid, postid=postid)
 
 @app.route('/list_update/<id_data>')
 def update(id_data):
@@ -153,6 +161,7 @@ def search():
     else:
         return render_template('search.html', keywords=splitted_keywords, search=search, token=tokenExist)
 
+# 글 저장
 @app.route('/list_save', methods=['POST'])
 def listSave():
     file_receive = request.files['file_give']
@@ -190,6 +199,7 @@ def listSave():
 
     return jsonify({'msg':'저장완료!'})
 
+# 수정 글 저장
 @app.route('/api/list_detail', methods=['PUT'])
 def update_post_save():
     title_receive = request.form['title_give']
@@ -212,8 +222,15 @@ def update_post_save():
 
     db.list.update_one({'_id':ObjectId(post_id_receive)}, {'$set' : doc})
 
-    return jsonify({'msg' : '수정 완료'})
+    return jsonify({'msg' : '수정 완료!'})
 
+# 글 삭제
+@app.route('/api/list_detail', methods=['POST'])
+def delete_post():
+    id_receive = request.form['id_give']
+    print(id_receive)
+    db.list.delete_one({'_id':ObjectId(id_receive)})
+    return jsonify({'msg' : '삭제 완료!'})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
