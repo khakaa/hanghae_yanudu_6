@@ -40,9 +40,10 @@
                                 <img src="{{ url_for('static', filename='img/' + img_file) }}" class="img-fluid rounded-start" alt="...">
                             </div>
                             <div class="col-md-8">
-                                <p class="post-title">
+                                <div class="col-md"></div>
+                                <!-- <p class="post-title"> -->
                                     <a class="card-title" href="/list_detail/{{id}}">{{title}} (좋아요: {{likes}})</a>
-                                </p>
+                                <!-- </p> -->
                                 <p class="card-text post-text">{{content}}</p>
                                 <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
