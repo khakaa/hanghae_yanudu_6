@@ -34,65 +34,56 @@ def show_list():
 @app.route('/like_update', methods=['POST'])
 
 def like_list():
-    #인증기능 필요
+    # 브라우저의 쿠키에서 사용자의 토큰을 불러온다.
     token_receive = request.cookies.get('mytoken')
     try:
+        # 받아온 암호화된 토큰을 복호화하고, db 값을 이용하여 사용자의 id를 변수에 저장
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.users.find_one({'id': payload['id']})
-        type = request.form['type_give']
-        print(type)
         id_user = user_info['id']
+
+        # ajax에서 보낸 데이터들을 변수에 저장
+        type = request.form['type_give']
         _id_receive = request.form['_id_give']
+
+        # ajax가 보내준 데이터와 db를 이용하여 사용할 변수생성
         target_list = db.list.find_one({'_id': ObjectId(_id_receive)})
         current_like = target_list['likes']
-        likes = request.form["likes_give"]
         once = list(db.like.find({'like_id': id_user},{'_id':False}))
+
+        # like db에 들어갈 데이터 document 생성(좋아요를 누른 사용자만 저장됨)
         doc = {
             "post_id": ObjectId(_id_receive),
             "like_id": id_user
         }
+
+        # ajax에서 어떤 type(좋아요)의 입력값을 받았는지 판단
         if type == 'like':
+            # like db에 저장된 id들과 현재 로그인된 사용자의 id 비교
             for i in once:
                 if id_user == i['like_id']:
                     return jsonify({'msg': '이미 좋아요를 눌렀어요!'})
-
+            # like db에 현재 사용자id가 없다면 추가한후 likes값 최신화
             db.like.insert_one(doc)
             likes = current_like + 1
             db.list.update_one({'_id': ObjectId(_id_receive)}, {'$set': {'likes': likes}})
         else:
+            # like db에 현재 사용자id가 저장되어있는지 판단
             if db.like.find_one({'like_id': id_user}):
+                # 저장되어있다면 저장된 id를 지우고 likes값 최신화
                 db.like.delete_one(doc)
                 likes = current_like - 1
                 db.list.update_one({'_id': ObjectId(_id_receive)}, {'$set': {'likes': likes}})
             else:
                 return jsonify({'msg': '이미 싫어요를 눌렀어요!'})
 
+        # likes값의 최신화가 진행되었으면 msg를 띄운다.
         return jsonify({"result": "success", 'msg': '업데이트 완료!'})
-        #
 
-        # doc = {
-        #     "post_id": ObjectId(_id_receive),
-        #     "like_id": id_user
-        # }
-        #
-        # if id_user in once:
-        #     return jsonify({'msg': '이미 좋아요를 눌렀어요!'})
-        # else:
-        #     if type == 'like':
-        #         db.like.insert_one(doc)
-        #         likes = current_like + 1
-        #         db.list.update_one({'_id': ObjectId(_id_receive)}, {'$set': {'likes': likes}})
-        #         return jsonify({"result": "success", 'msg': '업데이트 완료!', "likes": likes})
-        #     else:
-        #         db.like.delete_one(doc)
-        #         likes = current_like - 1
-        #         db.list.update_one({'_id': ObjectId(_id_receive)}, {'$set': {'likes': likes}})
-        #         return jsonify({"result": "success", 'msg': '업데이트 완료!', "likes": likes})
-
-
+    # 로그인된 사용자가 아니면 return값 출력
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
-    #인증기능 필요
+
 
 
 @app.route('/submit')

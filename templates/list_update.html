@@ -1,8 +1,14 @@
-{% extends 'base.html' %} {% block head %}
+<!-- base.html과 연결 -->
+{% extends 'base.html' %}
+
+<!-- base.html block head와 연결 -->
+{% block head %}
 <script defer src="{{ url_for('static', filename='js/update.js') }}"></script>
 <script defer src="{{ url_for('static', filename='css/style.css') }}"></script>
 
-{% endblock %} {% block content %}
+{% endblock %}
+<!--endblock을 만날때 까지의 구문을 base.html의 block content에 삽입-->
+{% block content %}
 <div class="wrap">
   
   <!-- 이미지 -->
