@@ -27,7 +27,7 @@
 ## 3. API 설계
 ![](https://images.velog.io/images/khakaa/post/ca0937e5-e7f1-4705-8986-b46f862b1885/KakaoTalk_Photo_2021-09-17-22-11-14.png)
 
-## 4. 웹페이지 링크
+## 4. 웹페이지 링크 
 [http://yanudu.shop](http://yanudu.shop)
 
-## 5. 시연 동영상 링크
+## 5. [시연 동영상 링크](https://www.youtube.com/watch?v=LVbsXQ08I9k)
