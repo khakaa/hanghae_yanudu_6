@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block head %}
-<script defer src="{{ url_for('static', filename='js/upload.js') }}"></script>
+<script defer src="{{ url_for('static', filename='js/detail.js') }}"></script>
 <script defer src="{{ url_for('static', filename='css/style.css') }}"></script>
 
 {% endblock %} {% block content %}
@@ -25,8 +25,16 @@
     </div>
 
     <div class="btn-wrap">
+      {%if userid == postid%}
       <button type="button" class="btn-submit btn btn-primary" onclick="window.location.href='/list_update/{{post._id}}'">수정</button>
+      {% else %}
+      <button type="button" class="btn-submit btn btn-primary" onclick="updateFail()">수정</button>
+      {% endif %}
+      {% if userid == postid %}
       <button type="button" class="btn_deletemodal btn btn-primary">삭제</button>
+      {% else %}
+      <button type="button" class="btn btn-primary" onclick="updateFail()">삭제</button>
+      {% endif %}
       <button type="button" class="btn-cancel btn btn-secondary" onclick="window.location.href='/'">
         목록으로
       </button>
@@ -39,7 +47,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">삭제 확인</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <p type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></p>
       </div>
       <div class="modal-body">
         <p>정말 삭제하시겠습니까?</p>
