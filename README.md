@@ -1,4 +1,3 @@
-# hanghae_yanudu_6
 
 # The BucketList
 다른 사람의 버킷리스트를 보고 당신이 하고 싶은 도전을 찾아보세요 !
