@@ -9,26 +9,14 @@
 {% block content %}
     <div class="general">
         <div class="top" >
-            <p class="home_title">야 너두 할 수 있어!</p>
+            <p class="home_title"></p>
         </div>
         <!-- <hr style="background-color: black"> -->
 
         <div class="middle">
-            <div class="container_mid justify-content-start">
-                <div class="input-group mb-3 rk_rg" style="width: 30%;">
-                    <label class="input-group-text" for="inputGroupSelect01">정렬</label>
-                    <select class="form-select" onchange=`array(${inputGroupSelect01})` id="inputGroupSelect01">
-                        <option selected>Choose...</option>
-                        <option value="1">좋아요</option>
-                        <option value="2">최신</option>
-                        <option value="3">etc...</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="container" id="list-box">
+            <div class="container up-margin" id="list-box">
                 <div class="row">
-                    {% for i in all_list %}
+                {% for i in all_list %}
                     {%set title = i.title%}
                     {%set img_file = i.file%}
                     {%set content = i.content%}
