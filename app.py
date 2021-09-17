@@ -119,9 +119,9 @@ def detail(id):
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 
     userid = db.users.find_one({'id': payload['id']})['id']
-    print(userid)
+    # print(userid)
     postid = db.list.find_one({'_id':bson_id})['author']
-    print(postid)
+    # print(postid)
     return render_template('list_detail.html', post=post, token = tokenExist, userid=userid, postid=postid)
 
 @app.route('/list_update/<id_data>')

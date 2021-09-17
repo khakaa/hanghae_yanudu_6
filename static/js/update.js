@@ -1,18 +1,27 @@
 function showPreview() {
-  const fileUploader = document.getElementById("inputGroupFile02");
+  const fileUploader = document.getElementById("img-file");
+  console.log(fileUploader)
   fileUploader.addEventListener("change", (event) => {
     const imagePreview = document.getElementById("preview-img");
     imagePreview.src = URL.createObjectURL(event.target.files[0]);
-    
+    // console.log(imagePreview.src)
   });
 }
 
 showPreview();
 
+const fileUploadBtn = document.getElementById('img-file')
+
+function update_file_name(){
+  let element = document.querySelector('#update-file')
+  let img = document.querySelector('#preview-img').src;
+  element.innerHTML =  img
+}
+
 function update_post(){
   let title = $('#subject').val()
   let content = $('#content').val()
-  let file = $('#')[0].files[0]
+  let file = $('#img-file')[0].files[0]
   console.log(file)
   let id = window.location.pathname.split('/')[2]
 
@@ -38,3 +47,4 @@ function update_post(){
   });
 }
 
+fileUploadBtn.addEventListener('change', update_file_name)
