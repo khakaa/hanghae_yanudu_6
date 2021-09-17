@@ -37,6 +37,10 @@
 }
 
 /* 홈 */
+.bg_mid {
+    background-image:url("../images/base.jpg");
+    background-size: cover;
+}
 .home_title {
     text-align: center;
     font-size : 5.5em;;
