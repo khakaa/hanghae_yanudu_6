@@ -13,7 +13,10 @@ function post(){
   let title = $('#subject').val()
   let content = $('#content').val()
   console.log(file)
-
+  if(file === undefined){
+    alert("파일을 넣어주세요.")
+    return;
+  }
   let form_data = new FormData();
 
   form_data.append('file_give', file);
