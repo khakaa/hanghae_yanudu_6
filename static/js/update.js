@@ -1,9 +1,14 @@
 function showPreview() {
-  const fileUploader = document.getElementById("inputGroupFile02");
+  const fileUploader = document.getElementById("img-file");
+  console.log(fileUploader)
   fileUploader.addEventListener("change", (event) => {
     const imagePreview = document.getElementById("preview-img");
+    // console.log(event.target)
     imagePreview.src = URL.createObjectURL(event.target.files[0]);
-    
+
+    const label = document.getElementById('update-file');
+    label.innerHTML = event.target.files[0].name
+
   });
 }
 
@@ -12,7 +17,7 @@ showPreview();
 function update_post(){
   let title = $('#subject').val()
   let content = $('#content').val()
-  let file = $('#')[0].files[0]
+  let file = $('#img-file')[0].files[0]
   console.log(file)
   let id = window.location.pathname.split('/')[2]
 

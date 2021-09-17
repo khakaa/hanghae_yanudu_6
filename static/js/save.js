@@ -1,5 +1,5 @@
 function showPreview() {
-  const fileUploader = document.getElementById("inputGroupFile02");
+  const fileUploader = document.querySelector(".file-upload");
   fileUploader.addEventListener("change", (event) => {
     const imagePreview = document.getElementById("preview-img");
     imagePreview.src = URL.createObjectURL(event.target.files[0]);

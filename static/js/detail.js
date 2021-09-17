@@ -42,7 +42,7 @@ function delete_post(){
   let post_id = window.location.pathname.split('/')[2];
   fetch('/api/list_detail',{
     method: "POST",
-    headers: {"Content-Type": "applicationo/json"},
+    headers: {"Content-Type": "application/json"},
     body: JSON.stringify({
       id_give : post_id
     }),
