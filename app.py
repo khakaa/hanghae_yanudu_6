@@ -29,26 +29,77 @@ def show_list():
     return jsonify({'bucket_authors': author})
 
 
+
 @app.route('/like_update', methods=['POST'])
+
 def like_list():
     #인증기능 필요
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({'id': payload['id']})
+        type = request.form['type_give']
+        print(type)
+        id_user = user_info['id']
+        _id_receive = request.form['_id_give']
+        target_list = db.list.find_one({'_id': ObjectId(_id_receive)})
+        current_like = target_list['likes']
+        likes = request.form["likes_give"]
+        once = list(db.like.find({'like_id': id_user},{'_id':False}))
+        doc = {
+            "post_id": ObjectId(_id_receive),
+            "like_id": id_user
+        }
+        if type == 'like':
+            for i in once:
+                if id_user == i['like_id']:
+                    return jsonify({'msg': '이미 좋아요를 눌렀어요!'})
 
+            db.like.insert_one(doc)
+            likes = current_like + 1
+            db.list.update_one({'_id': ObjectId(_id_receive)}, {'$set': {'likes': likes}})
+        else:
+            if db.like.find_one({'like_id': id_user}):
+                db.like.delete_one(doc)
+                likes = current_like - 1
+                db.list.update_one({'_id': ObjectId(_id_receive)}, {'$set': {'likes': likes}})
+            else:
+                return jsonify({'msg': '이미 싫어요를 눌렀어요!'})
+
+        return jsonify({"result": "success", 'msg': '업데이트 완료!'})
+        #
+
+        # doc = {
+        #     "post_id": ObjectId(_id_receive),
+        #     "like_id": id_user
+        # }
+        #
+        # if id_user in once:
+        #     return jsonify({'msg': '이미 좋아요를 눌렀어요!'})
+        # else:
+        #     if type == 'like':
+        #         db.like.insert_one(doc)
+        #         likes = current_like + 1
+        #         db.list.update_one({'_id': ObjectId(_id_receive)}, {'$set': {'likes': likes}})
+        #         return jsonify({"result": "success", 'msg': '업데이트 완료!', "likes": likes})
+        #     else:
+        #         db.like.delete_one(doc)
+        #         likes = current_like - 1
+        #         db.list.update_one({'_id': ObjectId(_id_receive)}, {'$set': {'likes': likes}})
+        #         return jsonify({"result": "success", 'msg': '업데이트 완료!', "likes": likes})
+
+
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
     #인증기능 필요
-    id_receive = request.form['id_give']
-    target_post = db.list.find_one({'_id':ObjectId(id_receive)})
-    current_like = target_post['likes']
 
-    new_like = current_like + 1
-
-    db.list.update_one({'_id':ObjectId(id_receive)}, {'$set': {'likes': new_like}})
-
-    return jsonify({'msg': '좋아요 완료!'})
 
 @app.route('/submit')
 def submit():
     tokenExist = checkExpired()
     return render_template('base.html', token = tokenExist)
     
+
 @app.route('/')
 def main(): 
     tokenExist = checkExpired()
