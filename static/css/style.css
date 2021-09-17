@@ -143,7 +143,9 @@
 .btn-wrap {
     text-align: center;
 }
-
+.up-margin {
+    margin-top: 30px;
+}
 /* detail css */
 .asdf {
   background-color: white;
