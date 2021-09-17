@@ -3,7 +3,6 @@ function showPreview() {
   console.log(fileUploader)
   fileUploader.addEventListener("change", (event) => {
     const imagePreview = document.getElementById("preview-img");
-    // console.log(event.target)
     imagePreview.src = URL.createObjectURL(event.target.files[0]);
 
     const label = document.getElementById('update-file');

@@ -23,14 +23,6 @@ def checkExpired():
     else:
         return False
 
-# API 역할을 하는 부분
-@app.route('/list/view', methods=['GET'])
-def show_list():
-    author = list(db.list.find({}, {'_id': False}).sort('like', -1))
-    return jsonify({'bucket_authors': author})
-
-
-
 @app.route('/like_update', methods=['POST'])
 
 def like_list():
