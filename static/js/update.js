@@ -3,20 +3,16 @@ function showPreview() {
   console.log(fileUploader)
   fileUploader.addEventListener("change", (event) => {
     const imagePreview = document.getElementById("preview-img");
+    // console.log(event.target)
     imagePreview.src = URL.createObjectURL(event.target.files[0]);
-    // console.log(imagePreview.src)
+
+    const label = document.getElementById('update-file');
+    label.innerHTML = event.target.files[0].name
+
   });
 }
 
 showPreview();
-
-const fileUploadBtn = document.getElementById('img-file')
-
-function update_file_name(){
-  let element = document.querySelector('#update-file')
-  let img = document.querySelector('#preview-img').src;
-  element.innerHTML =  img
-}
 
 function update_post(){
   let title = $('#subject').val()
@@ -47,4 +43,3 @@ function update_post(){
   });
 }
 
-fileUploadBtn.addEventListener('change', update_file_name)

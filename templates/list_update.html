@@ -7,7 +7,7 @@
   
   <!-- 이미지 -->
   <div class="image-preview">
-    <img class="img" id="preview-img" src="{{ url_for('static', filename='img/' + post['file']) }}" height="300" width="300" />
+    <img class="img" id="preview-img" src="{{ url_for('static', filename='img/' + post['file']) }}" height="300" width="300" value="{{ url_for('static', filename='img/' + post['file']) }}" onchange="change(this)"/>
   </div>
 
   <!-- postingbox -->
@@ -18,7 +18,7 @@
         <label id="update-file" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">{{post.file}}</label>
     <!-- </div> -->
       <!-- <label className="input-file-button" for="img-file">파일 선택 {{post.file}}</label> -->
-      <input id="img-file" type="file" class="form-control img visually-hidden"  name="file" value="{{url_for('static', filename='img/' + post['file'])}}"/>
+      <input id="img-file" type="file" class="form-control img visually-hidden"  name="file" />
     </div>
 
     <div class="input-title">
