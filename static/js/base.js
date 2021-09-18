@@ -7,11 +7,17 @@ console.log('%c  Bucket List  ', 'font-size: 100px; font-weight:bolder; backgrou
 //     return (window.location.href = "/");
 // }
 
+//로그아웃 기능
 function logout(){
+    //날짜 객체를 생성
     let date = new Date();
+    //현재시간을 얻고(getDate) 과거(-1)로 세팅(setDate)
     date.setDate(date.getDate() -1);
+    //숫자로 되어있는 날짜를 몇년 몇월 몇일로 변환
     expDate=date.toUTCString();
+    //쿠키의 만료시간을 지난시간인 expDate로 갱신하여 쿠키를 만료시킴
     document.cookie = `mytoken=expire; Expires=${expDate}`
+    //홈페이지로 이동
     window.location.href ='/'
 }
 
