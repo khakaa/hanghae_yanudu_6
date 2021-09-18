@@ -148,32 +148,35 @@ def signupPost():
     db.users.insert(user)
     return jsonify({'result':'success'})
 
+# 글 작성 페에지- 로그인을 한 사람만 글을 작성할 수 있으므로 쿠키 유효성을 체크
 @app.route('/list_save')
 def save():
     #쿠키 유효성 체크
     tokenExist = checkExpired()
     return render_template('list_save.html', token = tokenExist)
 
+# 글 상세 페이지
 @app.route('/list_detail/<id>')
 def detail(id):
-    bson_id = ObjectId(id)
-    post = db.list.find_one({'_id':bson_id})
-    tokenExist = checkExpired()
+    bson_id = ObjectId(id) # id 값을 ObjectId 로 감싸서 변수에 저장
+    post = db.list.find_one({'_id':bson_id}) # bson_id값과 일치하는 글을 찾아 변수에 저장
+    tokenExist = checkExpired() # 쿠키 유효성 체크
 
-    token_receive = request.cookies.get('mytoken')
+    token_receive = request.cookies.get('mytoken') # 클라이언트에서 토큰 값을 받아옴
 
-    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256']) # # jwt 토큰을 키를 가지고 복호화해서 payload에 저장
 
-    userid = db.users.find_one({'id': payload['id']})['id']
-    postid = db.list.find_one({'_id':bson_id})['author']
-    return render_template('list_detail.html', post=post, token = tokenExist, userid=userid, postid=postid)
+    userid = db.users.find_one({'id': payload['id']})['id'] # payload에 들어있는 사용자의 id값과 일치하는 글을 찾아 변수에 저장
+    postid = db.list.find_one({'_id':bson_id})['author'] # 받은 id 값과 _id 값이 일치하는 글의 사용자 id를 찾아 변수에 저장 
+    return render_template('list_detail.html', post=post, token = tokenExist, userid=userid, postid=postid) # 클라이언트에서 userid와 postid를 비교해서 같을 때만 수정버튼을 누르게하기 위해 userid, postid를 보내줌
 
+# 글 수정 페이지
 @app.route('/list_update/<id_data>')
 def update(id_data):
     #유효성 체크
     tokenExist = checkExpired()
-    bson_id = ObjectId(id_data)
-    post = db.list.find_one({'_id':bson_id})
+    bson_id = ObjectId(id_data) # url뒤에 인자로 받은 id_data를 ObjectId로 감싸서 변수에 저장
+    post = db.list.find_one({'_id':bson_id}) # 일차하는 데이터를 찾아 변수에 저장해서 넘겨준다
     return render_template('list_update.html', post=post, token = tokenExist)
 
 #검색
@@ -224,24 +227,20 @@ def search():
 # 글 저장
 @app.route('/list_save', methods=['POST'])
 def listSave():
-    file_receive = request.files['file_give']
-    title_receive = request.form['title_give']
-    content_receive = request.form['content_give']
-    token_receive = request.cookies.get('mytoken')
-    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-    user_info = db.user.find_one({"id": payload['id']})
+    file_receive = request.files['file_give']  # 클라이언트에서 보낸 글의 file 값을 받아옴
+    title_receive = request.form['title_give'] # 제목 값 받아옴
+    content_receive = request.form['content_give'] # 내용 값 받아옴
+    token_receive = request.cookies.get('mytoken') # 클라이언트로부터 토큰 값을 가져옴 
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256']) # jwt 토큰을 받은 것을 키를 가지고 복호화해서 payload에 저장
 
-    extension = file_receive.filename.split('.')[-1]
-    file_name = file_receive.filename.split('.')[0]
-    # today = datetime.now()
-    # mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+    extension = file_receive.filename.split('.')[-1]  # file 값에서 filename 값을 .으로 구분하여 잘라서 뒤에서 첫번째 값을 가져와서 변수에 저장
+    file_name = file_receive.filename.split('.')[0] # file 값에서 filename 값을 .으로 구분하여 잘라서 첫번째 값을 가져와서 변수에 저장
 
-    # filename = f'file_receive-{mytime}'
+    save_to = f'static/img/{file_name}.{extension}' # f-string 안에 파이썬 변수값을 넣어줄수 있다 - 파일을 저장할 경로 생성
 
-    save_to = f'static/img/{file_name}.{extension}'
+    file_receive.save(save_to) # 파일을 경로에 저장
 
-    file_receive.save(save_to)
-
+    # db에 저장할 docuemnt 
     doc = {
         'title': title_receive,
         'content': content_receive,
@@ -251,34 +250,36 @@ def listSave():
         'likes' : 0
     }
 
-    db.list.insert_one(doc)
+    db.list.insert_one(doc)  # db에 doc을 저장
 
-    return jsonify({'msg':'저장완료!'})
+    return jsonify({'msg':'저장완료!'})     # 저장완료 메세지
 
-# 수정 글 저장
+# 글 수정한 것 업데이트
 @app.route('/api/list_detail', methods=['PUT'])
 def update_post_save():
+    # 수정된 글의 제목, 내용, _id, file 값 가져오기
     title_receive = request.form['title_give']
     content_reiceive = request.form['content_give']
     post_id_receive = request.form['id_give']
     file_receive = request.files.get('file_give')
 
-    extension = file_receive.filename.split('.')[-1]
-    file_name = file_receive.filename.split('.')[0]
+    extension = file_receive.filename.split('.')[-1] # file 값에서 filename 값을 .으로 구분하여 잘라서 뒤에서 첫번째 값을 가져와서 변수에 저장
+    file_name = file_receive.filename.split('.')[0] # file 값에서 filename 값을 .으로 구분하여 잘라서 첫번째 값을 가져와서 변수에 저장
 
-    save_to = f'static/img/{file_name}.{extension}'
+    save_to = f'static/img/{file_name}.{extension}' # f-string 안에 파이썬 변수값을 넣어줄수 있다 - 파일을 저장할 경로 생성
 
-    file_receive.save(save_to)
+    file_receive.save(save_to)  # 파일을 경로에 저장
 
+    # db에 업데이트 할 doc 생성
     doc = {
         'title' : title_receive,
         'content' : content_reiceive,
         'file' : f'{file_name}.{extension}'
     }
 
-    db.list.update_one({'_id':ObjectId(post_id_receive)}, {'$set' : doc})
+    db.list.update_one({'_id':ObjectId(post_id_receive)}, {'$set' : doc})     # 수정된 글의 Obejct(id)와  db에 존재하는 _id 가 일치하는 데이터에 doc을 업데이트 해줌
 
-    return jsonify({'msg' : '수정 완료!'})
+    return jsonify({'msg' : '수정 완료!'})     # 수정 완료 메세지
 
 # 글 삭제
 @app.route('/api/list_detail', methods=['POST']) #포스트

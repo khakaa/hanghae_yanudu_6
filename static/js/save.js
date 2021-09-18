@@ -1,12 +1,12 @@
 // 사진 미리보기 기능 함수
 function showPreview() {
-  // file-upload 라는 클래스를 갖는 document를 불러와서 fileUploader변수에 저장
+  // input file의 element를 불러와서 fileUploader변수에 저장
   const fileUploader = document.querySelector(".file-upload");
-  // input 태그에 change 이벤트가 대상에 전달될 때마다 함수실행
+  // 파일선택을 하는 change 이벤트가 대상에 전달될 때마다 함수실행
   fileUploader.addEventListener("change", (event) => {
-    // preview-img 라는 id를 갖는 document를 불러와서 imagePreview변수에 저장
+    // 미리보기 img element를 불러와서 imagePreview변수에 저장
     const imagePreview = document.getElementById("preview-img");
-    // target 속성은 event가 전달한 객체에 대한 참조해서 그 안에 files 속성을 불러와서 변수에 저장
+    // 이미지의 src 값을 event가 발생한 target객체의의 URL을 DOMString으로 반환해서 미리보기 사진을 선택한 사진으로 띄워줌 DOMstring?  
     imagePreview.src = URL.createObjectURL(event.target.files[0]);
   });
 }
