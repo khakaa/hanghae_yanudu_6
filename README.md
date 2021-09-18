@@ -28,7 +28,7 @@
 ![](https://images.velog.io/images/khakaa/post/ca0937e5-e7f1-4705-8986-b46f862b1885/KakaoTalk_Photo_2021-09-17-22-11-14.png)
 
 ## 🖥 4. DB 설계
-<img width="851" alt="스크린샷 2021-09-17 오후 11 35 08" src="https://user-images.githubusercontent.com/73606877/133801516-f30c15d6-ac4b-44a8-8814-80cd1a9b0889.png">
+<img width="845" alt="스크린샷 2021-09-18 오전 9 23 51" src="https://user-images.githubusercontent.com/73606877/133865635-69bdedd9-b279-4823-877d-e0f61312a2f8.png">
 
 ## 🔗 5. 웹페이지 링크 
 [http://yanudu.shop](http://yanudu.shop)
