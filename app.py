@@ -211,7 +211,7 @@ def search():
 # 글 저장
 @app.route('/list_save', methods=['POST'])
 def listSave():
-    file_receive = request.files['file_give']
+    file_receive = request.files['file_give']  
     title_receive = request.form['title_give']
     content_receive = request.form['content_give']
     token_receive = request.cookies.get('mytoken')
