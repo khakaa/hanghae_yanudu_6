@@ -37,6 +37,10 @@
 }
 
 /* 홈 */
+.bg_mid {
+    background-image:url("../images/base.jpg");
+    background-size: cover;
+}
 .home_title {
     text-align: center;
     font-size : 5.5em;;
@@ -51,7 +55,7 @@
     padding: 100px;
     color:rgb(255, 255, 255);
     background-image: url(../images/background_Logo.png);
-    background-size: 100% 100%;
+    object-fit: cover;
 }
 
 .container_mid {
