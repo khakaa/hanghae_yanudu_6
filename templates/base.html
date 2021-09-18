@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <title>The BucketList</title>
-    <meta property="og:title" content="The BucketList" />
-    <meta property="og:description" content="다른사람의 버킷리스트를 보고 당신이 하고싶은 도전을 찾아보세요. 야, 너도 할 수 있어." />
-    <meta property="og:image" content="{{ url_for('static', filename='/images/background_Logo.png') }}" />
+    <meta property="og:title" content="The BucketList"/>
+    <meta property="og:description" content="다른사람의 버킷리스트를 보고 당신이 하고싶은 도전을 찾아보세요. 야, 너도 할 수 있어."/>
+    <meta property="og:image" content="{{ url_for('static', filename='/images/background_Logo.png') }}"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"/>
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -17,48 +17,56 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css' ) }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css' ) }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <script defer src="{{ url_for('static', filename='js/base.js') }}"></script>
     {% block head %}
     {% endblock %}
-  </head>
+</head>
 
-  <body>
-    <div class="container_top">
-      <a href = "/">
+<body>
+<!-- 배너 부분 시작 -->
+<div class="container_top">
+    <a href="/">
         <div class="item">
             <img id="b_img" src="../static/images/Bucket_title_logo.png">
         </div>
-      </a>
-      <div class="item detail">
-          <div class="input-group pe-2" style="width:320px; height: 40px;">
+    </a>
+    <div class="item detail">
+        <div class="input-group pe-2" style="width:320px; height: 40px;">
             <div class="item pe-3">
-              {% if token %}
-              <a class="rk_rg submit-link" href="/list_save">등록</a>
-              {% else %}
-              <a class="rk_rg submit-link" href="/" onclick='postingFail()'>등록</a>
-              {% endif %}
+                <!-- token 값이 존재하면(true) if 아래 구문 실행, 없으면(false) else 아래 구문 실행, endif 만나면 if문 종료-->
+                {% if token %}
+                    <a class="rk_rg submit-link" href="/list_save">등록</a>
+                {% else %}
+                    <a class="rk_rg submit-link" href="/" onclick='postingFail()'>등록</a>
+                {% endif %}
             </div>
-            <form action = '/search' method ="GET" class="searchForm">
-              <input type="text" class="form-control" placeholder="검색하기..."
-                     aria-label="Recipient's username" aria-describedby="button-addon2" name="search">
-              <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Go!</button>
+            <form action='/search' method="GET" class="searchForm">
+                <input type="text" class="form-control" placeholder="검색하기..."
+                       aria-label="Recipient's username" aria-describedby="button-addon2" name="search">
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Go!</button>
             </form>
-          </div>
-          <div class="d-grid gap-2 d-md-block item" style="height: 40px;">
-              {% if token!=True %}
-                <a href="login"><button class="btn btn-primary" type="button" style="width:100px">로그인</button></a>
-              {% else %}
-                <button class="btn btn-primary logout-btn" type="button" onclick="logout()" style="width:100px">로그아웃</button>
-              {% endif %}
-          </div>
-      </div>
+        </div>
+        <div class="d-grid gap-2 d-md-block item" style="height: 40px;">
+            <!-- token 값이 존재하면(true) if 아래 구문 실행, 없으면(false) else 아래 구문 실행, endif 만나면 if문 종료-->
+            {% if token!=True %}
+                <a href="login">
+                    <button class="btn btn-primary" type="button">로그인</button>
+                </a>
+            {% else %}
+                <button class="btn btn-primary logout-btn" type="button" onclick="logout()">로그아웃</button>
+            {% endif %}
+        </div>
     </div>
-    <!-- <hr style="background-color: black"> -->
-    {% block content %}
-    {% endblock %}
-  </body>
+</div>
+<!-- 배너 부분 끝 -->
+<!-- <hr style="background-color: black"> -->
+{% block content %}
+{% endblock %}
+</body>
 </html>

@@ -1,63 +1,77 @@
-{% extends 'base.html' %} {% block head %}
-<script defer src="{{ url_for('static', filename='js/detail.js') }}"></script>
-<script defer src="{{ url_for('static', filename='css/style.css') }}"></script>
+<!-- base.html과 연결 -->
+{% extends 'base.html' %}
 
-{% endblock %} {% block content %}
-<div class="wrap">
+<!--endblock을 만날때 까지의 구문을 base.html의 <head>부분에 연결-->
+{% block head %}
+    <script defer src="{{ url_for('static', filename='js/detail.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='css/style.css') }}"></script>
+{% endblock %}
 
-  <!-- 이미지 -->
-  <div class="image-preview">
-    <img class="img" id="upload-img" src="{{ url_for('static', filename='img/' + post['file']) }}" height="300" width="300" />
-  </div>
+<!--endblock을 만날때 까지의 구문을 base.html의 block content에 삽입-->
+{% block content %}
+    <div class="wrap">
 
-  <!-- postingbox -->
-  <div class="posting-box">
+        <!-- 첨부할 이미지 삽입-->
+        <div class="image-preview">
+            <img class="img" id="upload-img" src="{{ url_for('static', filename='img/' + post['file']) }}" height="300"
+                 width="300"/>
+        </div>
 
-    <div class="input-title">
-      <label>제목</label>
-      <input readonly type="text" id="subject" class="form-control" placeholder="{{post.title}}" aria-label="Username"
-        aria-describedby="basic-addon1"/>
+
+        <div class="posting-box">
+
+            <div class="input-title">
+                <label>제목</label>
+                <input readonly type="text" id="subject" class="form-control" placeholder="{{ post.title }}"
+                       aria-label="Username"
+                       aria-describedby="basic-addon1"/>
+            </div>
+
+            <div class="input-content">
+                <label>내용</label>
+                <textarea readonly id="content" class="form-control" placeholder="{{ post.content }}"
+                          aria-label="With textarea" rows="10"></textarea>
+            </div>
+
+            <div class="btn-wrap">
+                <!-- post를 작성한 아이디와 로그인한 아이디를 비교하는 jinja2 if문 -->
+                {% if userid == postid %}
+                    <button type="button" class="btn-submit btn btn-primary"
+                            onclick="window.location.href='/list_update/{{ post._id }}'">수정
+                    </button>
+                {% else %}
+                    <button type="button" class="btn-submit btn btn-primary" onclick="updateFail()">수정</button>
+                {% endif %}
+                <!-- post를 작성한 아이디와 로그인한 아이디를 비교하는 jinja2 if문 -->
+                {% if userid == postid %}
+                    <button type="button" class="btn_deletemodal btn btn-primary">삭제</button>
+                {% else %}
+                    <button type="button" class="btn btn-primary" onclick="updateFail()">삭제</button>
+                {% endif %}
+                <button type="button" class="btn-cancel btn btn-secondary" onclick="window.location.href='/'">
+                    목록으로
+                </button>
+            </div>
+        </div>
     </div>
-
-    <div class="input-content">
-      <label>내용</label>
-      <textarea readonly id="content" class="form-control" placeholder="{{post.content}}" aria-label="With textarea" rows="10"></textarea>
+    <<<<<<< HEAD
+    <!-- modal창 -->
+    <div class="modal hidden" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">삭제 확인</h5>
+                    <p type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></p>
+                </div>
+                <div class="modal-body">
+                    <p>정말 삭제하시겠습니까?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-del btn btn-primary">예 삭제하겠습니다.</button>
+                    <button type="button" class="btn-cancel btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="btn-wrap">
-      {%if userid == postid%}
-      <button type="button" class="btn-submit btn btn-primary" onclick="window.location.href='/list_update/{{post._id}}'">수정</button>
-      {% else %}
-      <button type="button" class="btn-submit btn btn-primary" onclick="updateFail()">수정</button>
-      {% endif %}
-      {% if userid == postid %}
-      <button type="button" class="btn_deletemodal btn btn-primary">삭제</button>
-      {% else %}
-      <button type="button" class="btn btn-primary" onclick="updateFail()">삭제</button>
-      {% endif %}
-      <button type="button" class="btn-cancel btn btn-secondary" onclick="window.location.href='/'">
-        목록으로
-      </button>
-    </div>
-  </div>
-</div>
-
-<div class="modal hidden"  tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">삭제 확인</h5>
-        <p type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></p>
-      </div>
-      <div class="modal-body">
-        <p>정말 삭제하시겠습니까?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn-del btn btn-primary">예 삭제하겠습니다.</button>
-        <button type="button" class="btn-modalclose btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 {% endblock %}

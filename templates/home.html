@@ -1,11 +1,14 @@
+<!--base.html에 연결-->
 {% extends 'base.html' %}
 
+<!--base.html의 <head>부분에 연결-->
 {% block head %}  
     <script defer src="{{ url_for('static', filename='css/style.css') }}"></script>
     <script defer src="{{ url_for('static', filename='js/viewlist.js') }}"></script>
 
 {% endblock %}
 
+<!--endblock을 만날때 까지의 구문을 base.html의 block content에 삽입-->
 {% block content %}
     <div class="general">
         <div class="top" >
@@ -16,18 +19,21 @@
         <div class="middle">
             <div class="container up-margin" id="list-box">
                 <div class="row">
+                <!--jinja2 언어로 html에서 함수를 구현하며 endfor 까지의 구문이 for 함수로 반복 (list db의 값을 가져온다)-->
                 {% for i in all_list %}
                     {%set title = i.title%}
                     {%set img_file = i.file%}
                     {%set content = i.content%}
                     {%set likes = i.likes%}
                     {%set id = i._id%}
+                    <!--for 문의 반복으로 post들이 웹페이지에 반영-->
                     <div class="card col-6 px-3 mb-3 middle">
                         <div class="row g-0">
                             <div class="col-md-4">
                                 <img src="{{ url_for('static', filename='img/' + img_file) }}" class="img-fluid rounded-start" alt="...">
                             </div>
-                            <div class="col-md-8">
+                                <p class="post-title">
+                                <!--jinja2 문법과 for함수로 불러온 데이터 삽입-->
                                 <div class="col-md"></div>
                                 <!-- <p class="post-title"> -->
                                     <a class="card-title" href="/list_detail/{{id}}">{{title}} (좋아요: {{likes}})</a>
@@ -35,6 +41,7 @@
                                 <p class="card-text post-text">{{content}}</p>
                                 <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <!-- token 값이 존재하면(true) if 아래 구문 실행, 없으면(false) else 아래 구문 실행, endif 만나면 if문 종료-->
                                 {% if token %}
                                     <button class="btn btn-primary me-md-2" onclick="likelist('{{id}}','{{likes}}','like')" type="button">좋아요</button>
                                 {% else %}

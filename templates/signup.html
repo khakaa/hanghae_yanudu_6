@@ -1,10 +1,13 @@
+<!-- base.html과 연결 -->
 {% extends 'base.html' %}
 
+<!-- base.html block head와 연결 -->
 {% block head %}
 <script defer src="{{ url_for('static', filename='js/signup.js') }}"></script>
 
 {% endblock %}
 
+<!--endblock을 만날때 까지의 구문을 base.html의 block content에 삽입-->
 {% block content %}
 <div class = "login-wrap">
     <div class="title">
